@@ -80,16 +80,20 @@
                     </a>
                 </div>
             </div>
+        </div>
+        <div class="scroll-cue">
+            <div class="scroll-cue-line"></div>
+        </div>
 
-            <!-- 3D App Preview -->
-            <div class="hero-app-preview reveal">
+        <!-- Flip Stage -->
+        <div class="flip-sticky" id="flipSticky">
+            <div class="flip-card-wrap" id="flipCardWrap">
+                <div class="flip-card" id="flipCard">
 
-                <div class="scene">
-                    <div class="perspective-wrap" id="perspectiveWrap">
-                        <div class="tilt-frame" id="tiltFrame">
-                            <div class="browser-outer">
-                                <div class="browser">
-
+                    <!-- FRONT FACE: Hero App Preview -->
+                    <div class="flip-face flip-front">
+                        <div class="browser-outer">
+                            <div class="browser">
                                     <!-- Browser bar -->
                                     <div class="browser-bar">
                                         <div class="traffic-lights">
@@ -365,17 +369,44 @@
                                             </div>
                                         </div>
                                     </div>
+                            </div><!-- /browser -->
+                        </div><!-- /browser-outer -->
+                    </div><!-- /flip-front -->
 
+                    <!-- BACK FACE: Transition into site -->
+                    <div class="flip-face flip-back">
+                        <div class="back-content">
+                            <div class="back-eyebrow"><div class="back-eyebrow-dot"></div>Fully Managed For You</div>
+                            <h2 class="back-heading">Everything Running.<br>While You're On The Tools.</h2>
+                            <p class="back-subtext">
+                                From the first Google search to the five-star review — leads are captured, followed up,
+                                booked, and tracked automatically. You just do the work.
+                            </p>
+                            <div class="back-stats">
+                                <div class="back-stat">
+                                    <div class="back-stat-val green">3.2&times;</div>
+                                    <div class="back-stat-label">More leads on average</div>
                                 </div>
-                            </div><!-- /browser-outer -->
+                                <div class="back-stat">
+                                    <div class="back-stat-val violet">68%</div>
+                                    <div class="back-stat-label">Booking conversion rate</div>
+                                </div>
+                                <div class="back-stat">
+                                    <div class="back-stat-val blue">4.9&#9733;</div>
+                                    <div class="back-stat-label">Average review score</div>
+                                </div>
+                            </div>
+                            <div class="back-cta">
+                                <a href="#contact" class="btn btn-primary">Book a Free Strategy Call</a>
+                                <a href="#how-it-works" class="btn-ghost-flip">See How It Works &rarr;</a>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="scroll-cue">
-            <div class="scroll-cue-line"></div>
-        </div>
+                    </div><!-- /flip-back -->
+
+                </div><!-- /flip-card -->
+            </div><!-- /flip-card-wrap -->
+
+        </div><!-- /flip-sticky -->
     </section>
 
     <!-- Core Services Section -->

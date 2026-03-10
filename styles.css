@@ -240,16 +240,17 @@ img {
    ============================================ */
 .hero {
     position: relative;
-    min-height: 100vh;
-    display: flex;
-    align-items: flex-start;
-    overflow: hidden;
-    padding-bottom: 80px;
+    height: 500vh;
+    overflow: visible;
+    padding-bottom: 0;
 }
 
 .hero-bg {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
     z-index: 0;
 }
 
@@ -1633,6 +1634,302 @@ a.contact-item:hover {
 }
 
 /* ============================================
+   SCROLL FLIP SECTION
+   ============================================ */
+
+/* sticky stage */
+.flip-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--bg-primary);
+}
+
+/* ambient glow */
+.flip-sticky::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 35% 50%, rgba(99, 102, 241, 0.18) 0%, transparent 55%),
+        radial-gradient(ellipse at 72% 55%, rgba(96, 165, 250, 0.09) 0%, transparent 50%);
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+}
+.flip-sticky.flipped::before {
+    background:
+        radial-gradient(ellipse at 65% 50%, rgba(6, 182, 212, 0.12) 0%, transparent 55%),
+        radial-gradient(ellipse at 28% 55%, rgba(96, 165, 250, 0.08) 0%, transparent 50%);
+}
+
+/* 3D card container */
+.flip-card-wrap {
+    perspective: 2000px;
+    perspective-origin: 50% 50%;
+    width: 1280px;
+    height: 700px;
+    position: relative;
+}
+
+.flip-card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transform: rotateY(0deg);
+    will-change: transform;
+}
+
+/* expanded state — full screen */
+.flip-card-wrap.fullscreen {
+    border-radius: 0;
+}
+.flip-card-wrap.fullscreen .flip-face {
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+}
+
+/* both faces */
+.flip-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+/* FRONT FACE */
+.flip-front {
+    background: #1c1c28;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: -30px 30px 80px rgba(0,0,0,0.7), 0 0 60px rgba(99, 102, 241, 0.25);
+}
+
+/* BACK FACE */
+.flip-back {
+    transform: rotateY(180deg);
+    background: linear-gradient(145deg, #0a0a12 0%, #0f0f1c 50%, #0a0a14 100%);
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 30px 30px 80px rgba(0,0,0,0.7), 0 0 60px rgba(6, 182, 212, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 70px;
+    text-align: center;
+    position: relative;
+    transition: padding 0.3s ease;
+}
+.flip-card-wrap.fullscreen .flip-back {
+    padding: 80px 100px;
+    border: none;
+    background: linear-gradient(145deg, #0a0a12 0%, var(--bg-secondary) 50%, #08080f 100%);
+}
+
+/* back face grid pattern */
+.flip-back::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(99, 102, 241, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99, 102, 241, 0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    border-radius: 14px;
+}
+
+/* back face corner accents */
+.flip-back::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(99, 102, 241, 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 100%, rgba(6, 182, 212, 0.08) 0%, transparent 40%);
+    border-radius: 14px;
+    pointer-events: none;
+}
+
+.back-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    max-width: 640px;
+}
+
+.back-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(99, 102, 241, 0.12);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent-2);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+.back-eyebrow-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--accent-2);
+    box-shadow: 0 0 6px var(--accent-2);
+    animation: backBlink 1.6s ease infinite;
+}
+@keyframes backBlink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+.back-heading {
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 800;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #ffffff 20%, var(--accent-2) 60%, var(--accent-3) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.back-subtext {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.back-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    width: 100%;
+}
+.back-stat {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 18px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.back-stat-val {
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1;
+}
+.back-stat-val.green { color: #20d4a0; }
+.back-stat-val.violet { color: var(--accent-2); }
+.back-stat-val.blue { color: #60a5fa; }
+.back-stat-label {
+    font-size: 9.5px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    font-weight: 600;
+}
+
+.back-cta {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 4px;
+}
+.btn-ghost-flip {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    padding: 13px 24px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.15s, color 0.15s;
+}
+.btn-ghost-flip:hover { border-color: rgba(255,255,255,0.25); color: var(--text-primary); }
+
+/* Override browser styles inside flip card */
+.flip-front .browser-outer {
+    width: 100%;
+    height: 100%;
+    border-radius: 14px;
+}
+.flip-front .browser {
+    width: 100%;
+    height: 100%;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+}
+.flip-front .app {
+    height: 100%;
+    flex: 1;
+    overflow: hidden;
+}
+.flip-front .main {
+    overflow: hidden;
+}
+.flip-front .content {
+    overflow: hidden;
+}
+.flip-front .sidebar {
+    width: 65px;
+}
+.flip-front .sb-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+}
+.flip-front .sb-logo img {
+    width: 36px;
+    height: 36px;
+}
+.flip-front .sb-icon {
+    width: 56px;
+}
+.flip-front .kpi-row {
+    gap: 8px;
+}
+.flip-front .kpi {
+    padding: 12px 10px;
+}
+.flip-front .kpi-val {
+    font-size: 1.1rem;
+}
+.flip-front .kpi-label {
+    font-size: 8px;
+}
+.flip-front .kpi-delta {
+    font-size: 8px;
+}
+.flip-front .pipeline {
+    gap: 8px;
+}
+.flip-front .stage {
+    min-width: 120px;
+}
+.flip-front .lcard {
+    padding: 8px;
+}
+.flip-front .lcard-name {
+    font-size: 10px;
+}
+.flip-front .lcard-loc {
+    font-size: 8px;
+}
+.flip-front .right-panel {
+    width: 180px;
+}
+
+
+/* ============================================
    RESPONSIVE
    ============================================ */
 @media (max-width: 1024px) {
@@ -1658,6 +1955,11 @@ a.contact-item:hover {
 
     .app {
         height: 620px;
+    }
+
+    .flip-card-wrap {
+        width: 900px;
+        height: 600px;
     }
 }
 
@@ -1753,6 +2055,36 @@ a.contact-item:hover {
         transform: rotateY(-8deg) rotateX(3deg) scale(0.85);
     }
 
+    .flip-card-wrap {
+        width: 650px;
+        height: 450px;
+    }
+
+    .back-heading {
+        font-size: 1.6rem;
+    }
+
+    .back-stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    .back-stat {
+        padding: 12px 8px;
+    }
+
+    .back-stat-val {
+        font-size: 1.2rem;
+    }
+
+    .flip-back {
+        padding: 30px 30px;
+    }
+
+    .back-cta {
+        flex-direction: column;
+    }
+
     /* Services */
     .services-grid {
         grid-template-columns: 1fr;
@@ -1808,6 +2140,27 @@ a.contact-item:hover {
 }
 
 @media (max-width: 480px) {
+    .flip-card-wrap {
+        width: 95vw;
+        height: 300px;
+    }
+
+    .back-heading {
+        font-size: 1.3rem;
+    }
+
+    .back-subtext {
+        font-size: 0.85rem;
+    }
+
+    .back-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .flip-back {
+        padding: 20px;
+    }
+
     .addons-grid {
         grid-template-columns: 1fr;
     }

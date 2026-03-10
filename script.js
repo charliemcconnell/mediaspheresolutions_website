@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initCountUp();
     initSmoothScroll();
     initAppPreview();
+    initScrollFlip();
 });
 
 /* --- Navbar scroll effect --- */
@@ -173,9 +174,6 @@ function initSmoothScroll() {
 
 /* --- 3D App Preview Animations --- */
 function initAppPreview() {
-    const tiltFrame = document.getElementById('tiltFrame');
-    if (!tiltFrame) return;
-
     // Ticker animation
     (function() {
         const track = document.querySelector('.ticker-track');
@@ -193,29 +191,6 @@ function initAppPreview() {
             requestAnimationFrame(animateTicker);
         }
         animateTicker();
-    })();
-
-    // Mouse tilt parallax — only when hovering the preview
-    (function() {
-        const frame = document.getElementById('tiltFrame');
-        const preview = document.querySelector('.hero-app-preview');
-        if (!frame || !preview) return;
-        const baseY = -14, baseX = 4;
-        const strength = 5;
-
-        preview.addEventListener('mousemove', (e) => {
-            const rect = preview.getBoundingClientRect();
-            const dx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-            const dy = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-            const rotY = baseY + dx * strength;
-            const rotX = baseX - dy * strength;
-            frame.style.transform = 'rotateY(' + rotY + 'deg) rotateX(' + rotX + 'deg) scale(1)';
-        });
-        preview.addEventListener('mouseleave', () => {
-            frame.style.transition = 'transform 0.5s ease';
-            frame.style.transform = 'rotateY(' + baseY + 'deg) rotateX(' + baseX + 'deg) scale(1)';
-            setTimeout(() => { frame.style.transition = ''; }, 500);
-        });
     })();
 
     // Revenue counter pulse
@@ -317,4 +292,157 @@ function initAppPreview() {
         setInterval(advanceCard, 4500);
         setTimeout(() => { showNotif(); popBubble(); }, 2000);
     })();
+}
+
+/* --- Scroll Flip Animation --- */
+function initScrollFlip() {
+    const section  = document.getElementById('home');
+    const cardWrap = document.getElementById('flipCardWrap');
+    const card     = document.getElementById('flipCard');
+    const sticky   = document.getElementById('flipSticky');
+
+    if (!section || !cardWrap || !card || !sticky) return;
+
+    const backFace = card.querySelector('.flip-back');
+
+    const BASE_TILT_Y = -14;
+    const BASE_TILT_X = 4;
+
+    // Base card dimensions (read from CSS)
+    const BASE_W = cardWrap.offsetWidth;
+    const BASE_H = cardWrap.offsetHeight;
+
+    let lastProgress = -1;
+    let backVisible  = false;
+
+    // Mouse tilt state
+    let mouseRotY = BASE_TILT_Y;
+    let mouseRotX = BASE_TILT_X;
+    let isHovering = false;
+
+    function ease3(t) {
+        return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
+    }
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    // Mouse tilt parallax on the flip card
+    sticky.addEventListener('mousemove', function(e) {
+        if (lastProgress > 0.1) return; // only tilt during approach phase
+        isHovering = true;
+        var rect = sticky.getBoundingClientRect();
+        var dx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+        var dy = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+        var strength = 5;
+        mouseRotY = BASE_TILT_Y + dx * strength;
+        mouseRotX = BASE_TILT_X - dy * strength;
+    });
+    sticky.addEventListener('mouseleave', function() {
+        isHovering = false;
+        mouseRotY = BASE_TILT_Y;
+        mouseRotX = BASE_TILT_X;
+    });
+
+    function onScroll() {
+        var rect     = section.getBoundingClientRect();
+        var sectionH = section.offsetHeight;
+        var viewH    = window.innerHeight;
+        var viewW    = window.innerWidth;
+
+        var scrolled = -rect.top;
+        var travel   = sectionH - viewH;
+        var progress = Math.max(0, Math.min(1, scrolled / travel));
+
+        if (Math.abs(progress - lastProgress) < 0.0003) return;
+        lastProgress = progress;
+
+        // ── PHASE 1: APPROACH (0 → 0.15) ──
+        var rotY, rotX, scaleVal = 1;
+        var perspective = 2000;
+
+        if (progress < 0.1) {
+            var t = progress / 0.1;
+            if (isHovering) {
+                // Blend from mouse tilt toward flat
+                rotY = lerp(mouseRotY, mouseRotY * 0.6, t);
+                rotX = lerp(mouseRotX, mouseRotX * 0.6, t);
+            } else {
+                rotY = BASE_TILT_Y * (1 - t * 0.4);
+                rotX = BASE_TILT_X * (1 - t * 0.4);
+            }
+            scaleVal = 1 + t * 0.02;
+        } else if (progress < 0.15) {
+            var t2 = (progress - 0.1) / 0.05;
+            rotY = BASE_TILT_Y * 0.6 * (1 - t2);
+            rotX = BASE_TILT_X * 0.6 * (1 - t2);
+            scaleVal = 1.02;
+        }
+        // ── PHASE 2: FLIP (0.15 → 0.55) ──
+        else if (progress < 0.55) {
+            var t3     = (progress - 0.15) / 0.40;
+            var eased = ease3(t3);
+            rotY     = eased * 180;
+            rotX     = Math.sin(eased * Math.PI) * -5;
+            scaleVal = 1 + Math.sin(eased * Math.PI) * 0.05;
+        }
+        // ── PHASE 3: LAND (0.55 → 0.65) ──
+        else if (progress < 0.65) {
+            var t4 = (progress - 0.55) / 0.10;
+            rotY     = 180;
+            rotX     = lerp(0, 2, t4);
+            scaleVal = lerp(1.05, 1.0, t4);
+        }
+        // ── PHASE 4: EXPAND (0.65 → 1.0) ──
+        else {
+            var t5     = (progress - 0.65) / 0.35;
+            var eased2 = ease3(t5);
+
+            rotY     = 180;
+            rotX     = lerp(2, 0, eased2);
+            scaleVal = 1;
+
+            perspective = lerp(2000, 0, eased2);
+
+            var w = lerp(BASE_W, viewW,  eased2);
+            var h = lerp(BASE_H, viewH, eased2);
+            var radius = lerp(14, 0, eased2);
+
+            cardWrap.style.width  = w + 'px';
+            cardWrap.style.height = h + 'px';
+            card.style.borderRadius = radius + 'px';
+
+            cardWrap.classList.toggle('fullscreen', eased2 > 0.5);
+
+            var shadowOpacity = 1 - eased2;
+            if (backFace) {
+                backFace.style.boxShadow = eased2 > 0.95
+                    ? 'none'
+                    : (30*(1-eased2)) + 'px ' + (30*(1-eased2)) + 'px ' + (80*(1-eased2)) + 'px rgba(0,0,0,' + (0.7*shadowOpacity) + '), 0 0 ' + (60*(1-eased2)) + 'px rgba(6,182,212,' + (0.15*shadowOpacity) + ')';
+            }
+        }
+
+        // Reset dimensions in non-expand phases
+        if (progress < 0.65) {
+            cardWrap.style.width  = BASE_W + 'px';
+            cardWrap.style.height = BASE_H + 'px';
+            card.style.borderRadius = '';
+            cardWrap.classList.remove('fullscreen');
+            if (backFace) backFace.style.boxShadow = '';
+        }
+
+        // Apply perspective + transform
+        cardWrap.style.perspective = perspective > 0 ? perspective + 'px' : 'none';
+        card.style.transform = 'rotateY(' + rotY + 'deg) rotateX(' + rotX + 'deg) scale(' + scaleVal + ')';
+
+        // ── FACE SWAP ──
+        var isBackNow = rotY > 90 && rotY < 270;
+        if (isBackNow !== backVisible) {
+            backVisible = isBackNow;
+            card.classList.toggle('back-visible', backVisible);
+            sticky.classList.toggle('flipped', backVisible);
+        }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
 }
