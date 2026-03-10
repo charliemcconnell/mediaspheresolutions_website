@@ -34,8 +34,12 @@
                 <a href="#how-it-works" class="nav-link">How It Works</a>
                 <a href="#add-ons" class="nav-link">Growth Add-Ons</a>
                 <a href="#team" class="nav-link">Team</a>
-                <a href="https://app.mediaspheresolutions.com" class="nav-link" target="_blank">Client Login</a>
-                <a href="#contact" class="nav-link nav-cta">Get Started</a>
+                <a href="#contact" class="nav-link">Get Started</a>
+                <a href="https://app.mediaspheresolutions.com" class="nav-link nav-cta-mobile" target="_blank">Client Login</a>
+            </div>
+
+            <div class="nav-right">
+                <a href="https://app.mediaspheresolutions.com" class="nav-cta" target="_blank">Client Login</a>
             </div>
 
             <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
@@ -50,44 +54,321 @@
     <section id="home" class="hero">
         <div class="hero-bg">
             <div class="hero-gradient"></div>
-            <div class="hero-grid-overlay"></div>
             <div class="hero-glow"></div>
+            <!-- Orbital particles -->
+            <div class="orbital-field">
+                <div class="orb orb-1"></div>
+                <div class="orb orb-2"></div>
+                <div class="orb orb-3"></div>
+                <div class="orb orb-4"></div>
+                <div class="orb orb-5"></div>
+                <div class="orb orb-6"></div>
+            </div>
         </div>
         <div class="container hero-container">
-            <div class="hero-content">
-                <div class="hero-badge reveal">
-                    <span class="badge-dot"></span>
-                    Built for Local Trade Businesses
-                </div>
-                <h1 class="hero-title reveal">
-                    More Leads.<br>
-                    Less Admin.<br>
-                    <span class="gradient-text">All Handled.</span>
+            <div class="hero-content hero-content-centered">
+<h1 class="hero-title reveal">
+                    Scale Your Trade Business<br>
+                    <span class="gradient-text">The Smart Way</span>
                 </h1>
                 <p class="hero-subtitle reveal">
-                    We help plumbers, electricians, builders, and every trade in between grow online with smart tools and targeted marketing. You focus on the job — we'll keep your phone ringing.
+                    Automated lead generation, CRM, booking systems, reputation management, and integrations with every major marketing tool. All handled for you.
                 </p>
                 <div class="hero-buttons reveal">
                     <a href="#contact" class="btn btn-primary">
-                        Book a Free Strategy Call
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        Sign Up Now
                     </a>
-                    <a href="#services" class="btn btn-outline">See What We Do</a>
                 </div>
-                <div class="hero-stats reveal">
-                    <div class="stat">
-                        <span class="stat-number" data-count="8">0</span>
-                        <span class="stat-label">Core Services</span>
-                    </div>
-                    <div class="stat-divider"></div>
-                    <div class="stat">
-                        <span class="stat-number" data-count="11">0</span>
-                        <span class="stat-label">Growth Add-Ons</span>
-                    </div>
-                    <div class="stat-divider"></div>
-                    <div class="stat">
-                        <span class="stat-number">1</span>
-                        <span class="stat-label">Team to Handle It All</span>
+            </div>
+
+            <!-- 3D App Preview -->
+            <div class="hero-app-preview reveal">
+
+                <div class="scene">
+                    <div class="perspective-wrap" id="perspectiveWrap">
+                        <div class="tilt-frame" id="tiltFrame">
+                            <div class="browser-outer">
+                                <div class="browser">
+
+                                    <!-- Browser bar -->
+                                    <div class="browser-bar">
+                                        <div class="traffic-lights">
+                                            <div class="tl tl-r"></div>
+                                            <div class="tl tl-y"></div>
+                                            <div class="tl tl-g"></div>
+                                        </div>
+                                        <div class="browser-tabs">
+                                            <div class="tab active"><div class="tab-dot"></div>MediaSphere · Pipeline</div>
+                                            <div class="tab">Leads</div>
+                                        </div>
+                                        <div class="url-bar">
+                                            <span class="url-lock">🔒</span>
+                                            <span>app.mediaspheresolutions.com/pipeline</span>
+                                        </div>
+                                        <div class="browser-actions">
+                                            <div class="action-dot">⟳</div>
+                                            <div class="action-dot">⋯</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- App shell -->
+                                    <div class="app">
+
+                                        <!-- Sidebar -->
+                                        <div class="sidebar">
+                                            <div class="sb-logo"><img src="images/logo.png" alt="MediaSphere" class="sb-logo-img"></div>
+                                            <div class="sb-icon active">
+                                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                                                <span class="sb-label">Pipeline</span>
+                                            </div>
+                                            <div class="sb-icon">
+                                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                                <span class="sb-label">Leads</span>
+                                            </div>
+                                            <div class="sb-icon">
+                                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                                <span class="sb-label">Bookings</span>
+                                            </div>
+                                            <div class="sb-icon">
+                                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                                <span class="sb-label">Reviews</span>
+                                            </div>
+                                            <div class="sb-icon">
+                                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                                <span class="sb-label">Messages</span>
+                                            </div>
+                                            <div class="sb-icon" style="margin-top:auto">
+                                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                                                <span class="sb-label">Settings</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Main -->
+                                        <div class="main">
+                                            <div class="topbar">
+                                                <div>
+                                                    <div class="topbar-title">Client Pipeline</div>
+                                                    <div class="topbar-sub">All leads · auto-managed</div>
+                                                </div>
+                                                <div class="live-pill"><div class="live-dot"></div>Live</div>
+                                                <button class="topbar-btn">+ Add Lead</button>
+                                            </div>
+
+                                            <div class="content">
+                                                <!-- KPIs -->
+                                                <div class="kpi-row">
+                                                    <div class="kpi kpi-v">
+                                                        <div class="kpi-val">102</div>
+                                                        <div class="kpi-label">Total Leads</div>
+                                                        <div class="kpi-delta">↑ 18% this month</div>
+                                                    </div>
+                                                    <div class="kpi kpi-g">
+                                                        <div class="kpi-val">68</div>
+                                                        <div class="kpi-label">Booked</div>
+                                                        <div class="kpi-delta">↑ 14% conv. rate</div>
+                                                    </div>
+                                                    <div class="kpi kpi-b kpi-hero-kpi" id="revenueKpi">
+                                                        <div class="kpi-val counting" id="revenueVal">€104.8k</div>
+                                                        <div class="kpi-label">Revenue</div>
+                                                        <div class="kpi-delta">↑ 12% MoM</div>
+                                                    </div>
+                                                    <div class="kpi kpi-a">
+                                                        <div class="kpi-val">4.9 ★</div>
+                                                        <div class="kpi-label">Review Score</div>
+                                                        <div class="kpi-delta">31 new reviews</div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Pipeline + right panel -->
+                                                <div class="bottom-row">
+                                                    <div class="pipeline-wrap">
+                                                        <div class="preview-section-label">Pipeline · 5 stages · auto-managed</div>
+                                                        <div class="pipeline">
+                                                            <!-- New Lead -->
+                                                            <div class="stage" id="stage0">
+                                                                <div class="stage-hd">
+                                                                    <div class="stage-name">New Lead</div>
+                                                                    <div class="stage-n" id="sn0">8</div>
+                                                                </div>
+                                                                <div class="lcard" id="movingCard">
+                                                                    <div class="lcard-name">James Murphy</div>
+                                                                    <div class="lcard-loc">Dublin · Electrician</div>
+                                                                    <div class="lcard-tag tag-g">Google Ads</div>
+                                                                </div>
+                                                                <div class="lcard">
+                                                                    <div class="lcard-name">Sarah Byrne</div>
+                                                                    <div class="lcard-loc">Cork · Plumber</div>
+                                                                    <div class="lcard-tag tag-m">Meta Ads</div>
+                                                                </div>
+                                                                <div class="lcard">
+                                                                    <div class="lcard-name">Tom Gallagher</div>
+                                                                    <div class="lcard-loc">Galway · Builder</div>
+                                                                    <div class="lcard-tag tag-b">Referral</div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Contacted -->
+                                                            <div class="stage" id="stage1">
+                                                                <div class="stage-hd">
+                                                                    <div class="stage-name">Contacted</div>
+                                                                    <div class="stage-n" id="sn1">11</div>
+                                                                </div>
+                                                                <div class="lcard">
+                                                                    <div class="lcard-name">Paul O'Brien</div>
+                                                                    <div class="lcard-loc">Limerick · Roofer</div>
+                                                                    <div class="lcard-tag tag-g">Google Ads</div>
+                                                                    <div class="auto-line"><svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> SMS sent auto</div>
+                                                                </div>
+                                                                <div class="lcard">
+                                                                    <div class="lcard-name">Aine Walsh</div>
+                                                                    <div class="lcard-loc">Waterford · Tiler</div>
+                                                                    <div class="lcard-tag tag-m">Meta Ads</div>
+                                                                    <div class="auto-line"><svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Follow-up queued</div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Booked -->
+                                                            <div class="stage" id="stage2">
+                                                                <div class="stage-hd">
+                                                                    <div class="stage-name">Booked</div>
+                                                                    <div class="stage-n" id="sn2">9</div>
+                                                                </div>
+                                                                <div class="lcard">
+                                                                    <div class="lcard-name">Mark Doyle</div>
+                                                                    <div class="lcard-loc">Dublin · Painter</div>
+                                                                    <div class="lcard-tag tag-b">Booked</div>
+                                                                    <div class="auto-line"><svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Calendar synced</div>
+                                                                </div>
+                                                                <div class="lcard">
+                                                                    <div class="lcard-name">Claire Finn</div>
+                                                                    <div class="lcard-loc">Kildare · Cleaner</div>
+                                                                    <div class="lcard-tag tag-b">Booked</div>
+                                                                    <div class="auto-line"><svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Reminder sent</div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Reviews -->
+                                                            <div class="stage" id="stage3">
+                                                                <div class="stage-hd">
+                                                                    <div class="stage-name">Reviews</div>
+                                                                    <div class="stage-n" id="sn3">14</div>
+                                                                </div>
+                                                                <div class="lcard">
+                                                                    <div class="lcard-name">Derek Ryan</div>
+                                                                    <div class="lcard-loc">Meath · Landscaper</div>
+                                                                    <div class="lcard-tag tag-r">5 stars</div>
+                                                                    <div class="auto-line"><svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Auto-requested</div>
+                                                                </div>
+                                                                <div class="lcard">
+                                                                    <div class="lcard-name">Lisa Nolan</div>
+                                                                    <div class="lcard-loc">Wicklow · Plumber</div>
+                                                                    <div class="lcard-tag tag-r">5 stars</div>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Won -->
+                                                            <div class="stage" id="stage4">
+                                                                <div class="stage-hd">
+                                                                    <div class="stage-name">Won ✓</div>
+                                                                    <div class="stage-n" id="sn4">26</div>
+                                                                </div>
+                                                                <div class="lcard">
+                                                                    <div class="lcard-name">Brian Kelly</div>
+                                                                    <div class="lcard-loc">Dublin · Electrician</div>
+                                                                    <div class="lcard-tag tag-w">Won</div>
+                                                                </div>
+                                                                <div class="lcard">
+                                                                    <div class="lcard-name">Sandra Hughes</div>
+                                                                    <div class="lcard-loc">Cork · Builder</div>
+                                                                    <div class="lcard-tag tag-w">Won</div>
+                                                                </div>
+                                                                <div class="lcard">
+                                                                    <div class="lcard-name">Conor Daly</div>
+                                                                    <div class="lcard-loc">Galway · Roofer</div>
+                                                                    <div class="lcard-tag tag-w">Won</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Right panel -->
+                                                    <div class="right-panel">
+                                                        <div class="mini-card" style="flex:1; overflow:hidden;">
+                                                            <div class="mini-label">Live Activity</div>
+                                                            <div class="activity">
+                                                                <div class="act-item">
+                                                                    <div class="act-dot ad-g"></div>
+                                                                    <div>
+                                                                        <div class="act-text"><strong>New lead</strong> — James M. via Google Ads</div>
+                                                                        <div class="act-time">Just now</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="act-item">
+                                                                    <div class="act-dot ad-v"></div>
+                                                                    <div>
+                                                                        <div class="act-text"><strong>Booking confirmed</strong> — Mark D.</div>
+                                                                        <div class="act-time">2 min ago</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="act-item">
+                                                                    <div class="act-dot ad-a"></div>
+                                                                    <div>
+                                                                        <div class="act-text"><strong>5★ review</strong> — Derek R.</div>
+                                                                        <div class="act-time">8 min ago</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="act-item">
+                                                                    <div class="act-dot ad-b"></div>
+                                                                    <div>
+                                                                        <div class="act-text"><strong>Follow-up sent</strong> — Aine W.</div>
+                                                                        <div class="act-time">14 min ago</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="act-item">
+                                                                    <div class="act-dot ad-g"></div>
+                                                                    <div>
+                                                                        <div class="act-text"><strong>Deal won</strong> — Sandra H. €620</div>
+                                                                        <div class="act-time">31 min ago</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="mini-card">
+                                                            <div class="mini-label">Lead Sources</div>
+                                                            <div class="donut-wrap">
+                                                                <div class="donut" style="background: conic-gradient(#a855f7 0% 35%, #20d4a0 35% 77%, #60a5fa 77% 89%, #4a4966 89% 100%)"></div>
+                                                                <div class="donut-legend">
+                                                                    <div class="dl-item"><div class="dl-dot" style="background:#a855f7"></div>Google Ads 35%</div>
+                                                                    <div class="dl-item"><div class="dl-dot" style="background:#20d4a0"></div>Meta Ads 42%</div>
+                                                                    <div class="dl-item"><div class="dl-dot" style="background:#60a5fa"></div>Referral 12%</div>
+                                                                    <div class="dl-item"><div class="dl-dot" style="background:#4a4966"></div>Other 11%</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Ticker -->
+                                            <div class="ticker-bar">
+                                                <div class="ticker-track-wrap">
+                                                    <div class="ticker-track">
+                                                        <div class="ticker-item"><div class="ti-dot" style="background:#20d4a0"></div><strong>New lead</strong> — James M. · Google Ads · Dublin</div>
+                                                        <div class="ticker-item"><div class="ti-dot" style="background:#a855f7"></div><strong>Booking confirmed</strong> — Mark D. · Wed 10am</div>
+                                                        <div class="ticker-item"><div class="ti-dot" style="background:#f59e0b"></div><strong>5-star review</strong> — Derek R. · "Brilliant service"</div>
+                                                        <div class="ticker-item"><div class="ti-dot" style="background:#60a5fa"></div><strong>SMS follow-up sent</strong> — Aine W. · automated</div>
+                                                        <div class="ticker-item"><div class="ti-dot" style="background:#20d4a0"></div><strong>Deal won</strong> — Sandra H. · Cork · €620</div>
+                                                        <div class="ticker-item"><div class="ti-dot" style="background:#a855f7"></div><strong>New lead</strong> — Tom G. · Meta Ads · Galway</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div><!-- /browser-outer -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -511,8 +792,8 @@
                     <div class="booking-frame-wrap">
                         <iframe
                             src="https://links.mediaspheresolutions.com/widget/booking/BJlPB1Ss8QzCbeUzWAwh"
-                            style="width: 100%; border: none; border-radius: 12px; min-height: 850px; overflow: hidden;"
-                            scrolling="no"
+                            style="width: 100%; border: none; border-radius: 12px; min-height: 850px;"
+                            scrolling="yes"
                             title="Book a Strategy Call">
                         </iframe>
                     </div>
