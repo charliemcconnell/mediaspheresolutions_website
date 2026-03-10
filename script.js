@@ -356,82 +356,53 @@ function initScrollFlip() {
         if (Math.abs(progress - lastProgress) < 0.0003) return;
         lastProgress = progress;
 
-        // ── PHASE 1: APPROACH (0 → 0.15) ──
-        var rotY, rotX, scaleVal = 1;
-        var perspective = 2000;
+        var rotY, rotX, scaleVal, perspective = 2000;
 
-        if (progress < 0.1) {
-            var t = progress / 0.1;
-            if (isHovering) {
-                // Blend from mouse tilt toward flat
-                rotY = lerp(mouseRotY, mouseRotY * 0.6, t);
-                rotX = lerp(mouseRotX, mouseRotX * 0.6, t);
-            } else {
-                rotY = BASE_TILT_Y * (1 - t * 0.4);
-                rotX = BASE_TILT_X * (1 - t * 0.4);
-            }
-            scaleVal = 1 + t * 0.02;
-        } else if (progress < 0.15) {
-            var t2 = (progress - 0.1) / 0.05;
-            rotY = BASE_TILT_Y * 0.6 * (1 - t2);
-            rotX = BASE_TILT_X * 0.6 * (1 - t2);
-            scaleVal = 1.02;
-        }
-        // ── PHASE 2: FLIP (0.15 → 0.55) ──
-        else if (progress < 0.55) {
-            var t3     = (progress - 0.15) / 0.40;
-            var eased = ease3(t3);
-            rotY     = eased * 180;
-            rotX     = Math.sin(eased * Math.PI) * -5;
-            scaleVal = 1 + Math.sin(eased * Math.PI) * 0.05;
-        }
-        // ── PHASE 3: LAND (0.55 → 0.65) ──
-        else if (progress < 0.65) {
-            var t4 = (progress - 0.55) / 0.10;
-            rotY     = 180;
-            rotX     = lerp(0, 2, t4);
-            scaleVal = lerp(1.05, 1.0, t4);
-        }
-        // ── PHASE 4: EXPAND (0.65 → 1.0) ──
-        else {
-            var t5     = (progress - 0.65) / 0.35;
-            var eased2 = ease3(t5);
-
-            rotY     = 180;
-            rotX     = lerp(2, 0, eased2);
+        // ── PHASE 1: HOLD (0 → 0.08) ──
+        // Card at rest — holds its tilt while scrolling up to stick position
+        if (progress < 0.08) {
+            rotY     = isHovering ? mouseRotY : BASE_TILT_Y;
+            rotX     = isHovering ? mouseRotX : BASE_TILT_X;
             scaleVal = 1;
 
-            perspective = lerp(2000, 0, eased2);
+        // ── PHASE 2: FLIP (0.08 → 0.50) ──
+        // Single smooth ease curve from tilt directly to 180° — no pre-flattening
+        } else {
+            var flipT     = Math.min(1, (progress - 0.08) / 0.42);
+            var flipEased = ease3(flipT);
+            rotY     = lerp(BASE_TILT_Y, 180, flipEased);
+            rotX     = Math.sin(flipEased * Math.PI) * -5;
+            scaleVal = 1 + Math.sin(flipEased * Math.PI) * 0.05;
+        }
 
-            var w = lerp(BASE_W, viewW,  eased2);
-            var h = lerp(BASE_H, viewH, eased2);
-            var radius = lerp(14, 0, eased2);
+        // ── EXPAND (starts 0.30, ends 1.0) ──
+        // Overlaps with flip — card grows while the back face is coming around
+        var expandT     = Math.max(0, Math.min(1, (progress - 0.30) / 0.70));
+        var expandEased = ease3(expandT);
 
-            cardWrap.style.width  = w + 'px';
-            cardWrap.style.height = h + 'px';
-            card.style.borderRadius = radius + 'px';
+        cardWrap.style.width        = lerp(BASE_W, viewW, expandEased) + 'px';
+        cardWrap.style.height       = lerp(BASE_H, viewH, expandEased) + 'px';
+        card.style.borderRadius     = lerp(14, 0, expandEased) + 'px';
+        cardWrap.classList.toggle('fullscreen', expandEased > 0.55);
 
-            cardWrap.classList.toggle('fullscreen', eased2 > 0.5);
+        // Flatten perspective only in the final stretch of expand
+        if (expandEased > 0.6) {
+            perspective = lerp(2000, 0, (expandEased - 0.6) / 0.4);
+        }
+        cardWrap.style.perspective = perspective > 0 ? perspective + 'px' : 'none';
 
-            var shadowOpacity = 1 - eased2;
-            if (backFace) {
-                backFace.style.boxShadow = eased2 > 0.95
+        // Back face shadow fades as card expands
+        if (backFace) {
+            if (expandEased > 0) {
+                var shadowOpacity = 1 - expandEased;
+                backFace.style.boxShadow = expandEased > 0.95
                     ? 'none'
-                    : (30*(1-eased2)) + 'px ' + (30*(1-eased2)) + 'px ' + (80*(1-eased2)) + 'px rgba(0,0,0,' + (0.7*shadowOpacity) + '), 0 0 ' + (60*(1-eased2)) + 'px rgba(6,182,212,' + (0.15*shadowOpacity) + ')';
+                    : (30*(1-expandEased)) + 'px ' + (30*(1-expandEased)) + 'px ' + (80*(1-expandEased)) + 'px rgba(0,0,0,' + (0.7*shadowOpacity) + '), 0 0 ' + (60*(1-expandEased)) + 'px rgba(6,182,212,' + (0.15*shadowOpacity) + ')';
+            } else {
+                backFace.style.boxShadow = '';
             }
         }
 
-        // Reset dimensions in non-expand phases
-        if (progress < 0.65) {
-            cardWrap.style.width  = BASE_W + 'px';
-            cardWrap.style.height = BASE_H + 'px';
-            card.style.borderRadius = '';
-            cardWrap.classList.remove('fullscreen');
-            if (backFace) backFace.style.boxShadow = '';
-        }
-
-        // Apply perspective + transform
-        cardWrap.style.perspective = perspective > 0 ? perspective + 'px' : 'none';
         card.style.transform = 'rotateY(' + rotY + 'deg) rotateX(' + rotX + 'deg) scale(' + scaleVal + ')';
 
         // ── FACE SWAP ──
