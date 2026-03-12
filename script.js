@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initSmoothScroll();
     initAppPreview();
     initScrollFlip();
+    initOrbitAnimation();
 });
 
 /* --- Navbar scroll effect --- */
@@ -296,49 +297,54 @@ function initAppPreview() {
 
 /* --- Scroll Flip Animation --- */
 function initScrollFlip() {
-    const section  = document.getElementById('home');
-    const cardWrap = document.getElementById('flipCardWrap');
-    const card     = document.getElementById('flipCard');
-    const sticky   = document.getElementById('flipSticky');
+    var section  = document.getElementById('home');
+    var cardWrap = document.getElementById('flipCardWrap');
+    var card     = document.getElementById('flipCard');
+    var sticky   = document.getElementById('flipSticky');
+    var backInner = document.getElementById('backInner');
+    var backFace  = card ? card.querySelector('.flip-back') : null;
+    var backVisualCol = card ? card.querySelector('.back-visual-col') : null;
+    var orbitSidebar = document.getElementById('orbitSidebar');
 
     if (!section || !cardWrap || !card || !sticky) return;
 
-    const backFace = card.querySelector('.flip-back');
+    var BASE_TILT_Y = -14;
+    var BASE_TILT_X = 4;
+    var BASE_W = cardWrap.offsetWidth;
+    var BASE_H = cardWrap.offsetHeight;
 
-    const BASE_TILT_Y = -14;
-    const BASE_TILT_X = 4;
+    var lastProgress = -1;
+    var backVisible  = false;
+    var mouseRotY = BASE_TILT_Y;
+    var mouseRotX = BASE_TILT_X;
+    var backCenterPad = -1; // computed once when first needed
 
-    // Base card dimensions (read from CSS)
-    const BASE_W = cardWrap.offsetWidth;
-    const BASE_H = cardWrap.offsetHeight;
+    var stickyLockOffset = sticky.getBoundingClientRect().top - section.getBoundingClientRect().top;
 
-    let lastProgress = -1;
-    let backVisible  = false;
+    // REVEAL_END: fraction of total progress used for the initial scale-in reveal
+    var REVEAL_END = 0.03;
+    // ANIM_END: fraction of total progress used for the flip+expand animation
+    // The remaining (1 - ANIM_END) is used to scroll system content through the card
+    var ANIM_END = 0.40;
+    var REVEAL_END_LOCAL = REVEAL_END / ANIM_END;
 
-    // Mouse tilt state
-    let mouseRotY = BASE_TILT_Y;
-    let mouseRotX = BASE_TILT_X;
-    let isHovering = false;
+    var TOTAL_SYSTEM_HEIGHT = 0;
+    var sysHeightComputed = false;
+    var sysBlocksEl = null;
 
-    function ease3(t) {
-        return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
-    }
-
+    function ease3(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
+    function easeOut3(t) { return 1 - Math.pow(1 - t, 3); }
     function lerp(a, b, t) { return a + (b - a) * t; }
 
-    // Mouse tilt parallax on the flip card
     sticky.addEventListener('mousemove', function(e) {
-        if (lastProgress > 0.1) return; // only tilt during approach phase
-        isHovering = true;
-        var rect = sticky.getBoundingClientRect();
-        var dx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-        var dy = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-        var strength = 5;
-        mouseRotY = BASE_TILT_Y + dx * strength;
-        mouseRotX = BASE_TILT_X - dy * strength;
+        if (lastProgress > REVEAL_END + 0.05) return;
+        var r  = sticky.getBoundingClientRect();
+        var dx = ((e.clientX - r.left) / r.width  - 0.5) * 2;
+        var dy = ((e.clientY - r.top)  / r.height - 0.5) * 2;
+        mouseRotY = BASE_TILT_Y + dx * 5;
+        mouseRotX = BASE_TILT_X - dy * 5;
     });
     sticky.addEventListener('mouseleave', function() {
-        isHovering = false;
         mouseRotY = BASE_TILT_Y;
         mouseRotX = BASE_TILT_X;
     });
@@ -349,71 +355,149 @@ function initScrollFlip() {
         var viewH    = window.innerHeight;
         var viewW    = window.innerWidth;
 
-        var scrolled = -rect.top;
-        var travel   = sectionH - viewH;
-        var progress = Math.max(0, Math.min(1, scrolled / travel));
+        var scrolled     = -rect.top;
+        var travel       = sectionH - viewH;
+        var animScrolled = Math.max(0, scrolled - stickyLockOffset);
+        var animTravel   = Math.max(1, travel - stickyLockOffset);
+        var progress     = Math.max(0, Math.min(1, animScrolled / animTravel));
 
         if (Math.abs(progress - lastProgress) < 0.0003) return;
         lastProgress = progress;
 
-        var rotY, rotX, scaleVal, perspective = 2000;
+        // Phase 1 (0 → ANIM_END): flip card animates and expands
+        var animProgress = Math.min(1, progress / ANIM_END);
+        // Phase 2 (ANIM_END → 1): system content scrolls upward through the card
+        var contentProgress = Math.max(0, (progress - ANIM_END) / (1 - ANIM_END));
 
-        // ── PHASE 1: HOLD (0 → 0.08) ──
-        // Card at rest — holds its tilt while scrolling up to stick position
-        if (progress < 0.08) {
-            rotY     = isHovering ? mouseRotY : BASE_TILT_Y;
-            rotX     = isHovering ? mouseRotX : BASE_TILT_X;
-            scaleVal = 1;
+        var revealT     = Math.min(1, animProgress / REVEAL_END_LOCAL);
+        var revealEased = ease3(revealT);
 
-        // ── PHASE 2: FLIP (0.08 → 0.50) ──
-        // Single smooth ease curve from tilt directly to 180° — no pre-flattening
+        var flipProgress = animProgress < REVEAL_END_LOCAL
+            ? 0
+            : Math.min(1, (animProgress - REVEAL_END_LOCAL) / (1 - REVEAL_END_LOCAL));
+
+        var rotY, rotX, scaleVal, perspective;
+
+        if (flipProgress === 0) {
+            rotY        = lerp(0, BASE_TILT_Y, revealEased);
+            rotX        = lerp(0, BASE_TILT_X, revealEased);
+            scaleVal    = lerp(0.96, 1, revealEased);
+            perspective = lerp(20000, 2000, revealEased);
         } else {
-            var flipT     = Math.min(1, (progress - 0.08) / 0.42);
-            var flipEased = ease3(flipT);
-            rotY     = lerp(BASE_TILT_Y, 180, flipEased);
-            rotX     = Math.sin(flipEased * Math.PI) * -5;
-            scaleVal = 1 + Math.sin(flipEased * Math.PI) * 0.05;
+            var flipT     = Math.min(1, flipProgress / 0.55);
+            var flipEased = easeOut3(flipT);
+            rotY        = lerp(BASE_TILT_Y, -180, flipEased);
+            rotX        = lerp(BASE_TILT_X, 0, flipEased) + Math.sin(flipEased * Math.PI) * -5;
+            scaleVal    = 1 + Math.sin(flipEased * Math.PI) * 0.05;
+            perspective = 2000;
         }
 
-        // ── EXPAND (starts 0.30, ends 1.0) ──
-        // Overlaps with flip — card grows while the back face is coming around
-        var expandT     = Math.max(0, Math.min(1, (progress - 0.30) / 0.70));
+        var expandT     = Math.max(0, Math.min(1, (flipProgress - 0.30) / 0.70));
         var expandEased = ease3(expandT);
 
-        cardWrap.style.width        = lerp(BASE_W, viewW, expandEased) + 'px';
-        cardWrap.style.height       = lerp(BASE_H, viewH, expandEased) + 'px';
-        card.style.borderRadius     = lerp(14, 0, expandEased) + 'px';
+        var currentCardH = lerp(BASE_H, viewH - 130, expandEased);
+        cardWrap.style.width    = lerp(BASE_W, viewW, expandEased) + 'px';
+        cardWrap.style.height   = currentCardH + 'px';
+        card.style.borderRadius = lerp(14, 0, expandEased) + 'px';
         cardWrap.classList.toggle('fullscreen', expandEased > 0.55);
 
-        // Flatten perspective only in the final stretch of expand
         if (expandEased > 0.6) {
             perspective = lerp(2000, 0, (expandEased - 0.6) / 0.4);
         }
         cardWrap.style.perspective = perspective > 0 ? perspective + 'px' : 'none';
-
-        // Back face shadow fades as card expands
-        if (backFace) {
-            if (expandEased > 0) {
-                var shadowOpacity = 1 - expandEased;
-                backFace.style.boxShadow = expandEased > 0.95
-                    ? 'none'
-                    : (30*(1-expandEased)) + 'px ' + (30*(1-expandEased)) + 'px ' + (80*(1-expandEased)) + 'px rgba(0,0,0,' + (0.7*shadowOpacity) + '), 0 0 ' + (60*(1-expandEased)) + 'px rgba(6,182,212,' + (0.15*shadowOpacity) + ')';
-            } else {
-                backFace.style.boxShadow = '';
-            }
-        }
-
         card.style.transform = 'rotateY(' + rotY + 'deg) rotateX(' + rotX + 'deg) scale(' + scaleVal + ')';
 
-        // ── FACE SWAP ──
-        var isBackNow = rotY > 90 && rotY < 270;
+        // Smoothly drive back face padding-top (avoids justify-content snap)
+        if (backFace && backInner) {
+            if (backCenterPad < 0) {
+                var innerH = backInner.offsetHeight || 380;
+                backCenterPad = Math.max(40, (BASE_H - innerH) / 2);
+            }
+            var sidePad = lerp(50, 80, expandEased);
+            backFace.style.paddingTop    = lerp(backCenterPad, 0, expandEased).toFixed(1) + 'px';
+            backFace.style.paddingLeft   = sidePad.toFixed(1) + 'px';
+            backFace.style.paddingRight  = sidePad.toFixed(1) + 'px';
+        }
+
+
+        var isBackNow = rotY < -90;
         if (isBackNow !== backVisible) {
             backVisible = isBackNow;
             card.classList.toggle('back-visible', backVisible);
             sticky.classList.toggle('flipped', backVisible);
         }
+
+        // Phase 2: scroll system content upward through the fullscreen back face
+        if (backInner) {
+            if (!sysHeightComputed && expandEased > 0.98) {
+                TOTAL_SYSTEM_HEIGHT = Math.max(0, backInner.scrollHeight - (viewH - 130));
+                sysHeightComputed = true;
+                if (!sysBlocksEl) sysBlocksEl = backInner.querySelector('.back-system-blocks');
+            }
+            if (TOTAL_SYSTEM_HEIGHT > 0) {
+                var contentOffset = contentProgress * TOTAL_SYSTEM_HEIGHT;
+                backInner.style.transform = contentOffset > 0
+                    ? 'translateY(-' + contentOffset.toFixed(1) + 'px)'
+                    : '';
+
+                // Sticky orbit: counter-translate so it stays fixed in the
+                // card viewport while blocks scroll past.
+                if (orbitSidebar && sysBlocksEl) {
+                    var sysTop   = sysBlocksEl.offsetTop;
+                    var targetY  = 150; // stick 150px from top of card
+                    var counter  = Math.max(0, contentOffset - (sysTop - targetY));
+                    var MAX_ORBIT_TRAVEL = 1850; // hard cap in px — tune this value
+                    counter = Math.min(counter, MAX_ORBIT_TRAVEL);
+
+                    orbitSidebar.style.transform = counter > 0
+                        ? 'translateY(' + counter.toFixed(1) + 'px)'
+                        : '';
+                }
+            }
+        }
+
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
+}
+
+/* --- Orbiting Skills Animation --- */
+function initOrbitAnimation() {
+    var scene = document.getElementById('orbitScene');
+    if (!scene) return;
+
+    var nodes = Array.from(scene.querySelectorAll('.orbit-node'));
+    var timeOffset = 0;
+    var pauseStart = null;
+
+    scene.addEventListener('mouseenter', function() {
+        pauseStart = performance.now();
+    });
+    scene.addEventListener('mouseleave', function() {
+        if (pauseStart !== null) {
+            timeOffset += performance.now() - pauseStart;
+            pauseStart = null;
+        }
+    });
+
+    function tick(ts) {
+        var elapsed = pauseStart !== null
+            ? (pauseStart - timeOffset) / 1000
+            : (ts - timeOffset) / 1000;
+
+        nodes.forEach(function(node) {
+            var radius = parseFloat(node.dataset.radius);
+            var phase  = parseFloat(node.dataset.phase);
+            var speed  = parseFloat(node.dataset.speed);
+            var angle  = elapsed * speed + phase;
+            var x = Math.cos(angle) * radius;
+            var y = Math.sin(angle) * radius;
+            node.style.transform = 'translate(' + x.toFixed(2) + 'px, ' + y.toFixed(2) + 'px)';
+        });
+
+        requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
 }
