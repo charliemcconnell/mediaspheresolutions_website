@@ -31,9 +31,8 @@
 
             <div class="nav-menu" id="nav-menu">
                 <a href="services.html" class="nav-link">Services</a>
-                <a href="services.html#add-ons" class="nav-link">Growth Add-Ons</a>
-                <a href="#how-it-works" class="nav-link">How It Works</a>
-                <a href="#team" class="nav-link">Team</a>
+
+                <a href="about.html" class="nav-link">About Us</a>
                 <a href="#contact" class="nav-link">Get Started</a>
                 <a href="https://app.mediaspheresolutions.com" class="nav-link nav-cta-mobile" target="_blank">Client Login</a>
             </div>
@@ -590,77 +589,6 @@
         </div>
     </section>
 
-    <!-- Team Section -->
-    <section id="team" class="section section-gradient">
-        <div class="container">
-            <div class="section-header reveal">
-                <span class="section-tag">The People</span>
-                <h2 class="section-title">Meet the Team</h2>
-                <p class="section-subtitle">A small, dedicated team focused on building smarter marketing and automation for service businesses that want to grow.</p>
-            </div>
-
-            <div class="team-grid">
-                <div class="team-card reveal" data-delay="0">
-                    <div class="team-image">
-                        <img src="images/charlie.png" alt="Charlie McConnell">
-                        <div class="team-socials">
-                            <a href="https://www.linkedin.com/in/charlie-mcconnell-343274354/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                    <div class="team-info">
-                        <h3>Charlie McConnell</h3>
-                        <span class="team-role">Strategic Director</span>
-                        <p>Passionate about helping businesses grow through innovative automation strategies and harnessing the power of AI.</p>
-                    </div>
-                </div>
-
-                <div class="team-card reveal" data-delay="1">
-                    <div class="team-image">
-                        <img src="images/james.png" alt="James Colville">
-                        <div class="team-socials">
-                            <a href="https://www.linkedin.com/in/james-colville-1b710b367/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                    <div class="team-info">
-                        <h3>James Colville</h3>
-                        <span class="team-role">Head of Marketing</span>
-                        <p>Performance marketing specialist focused on measuring results and optimising systems accordingly.</p>
-                    </div>
-                </div>
-
-                <div class="team-card reveal" data-delay="2">
-                    <div class="team-image">
-                        <img src="images/shane.png" alt="Shane Whelan">
-                        <div class="team-socials">
-                            <a href="https://shane-whelan.ie" target="_blank" aria-label="Website"><i class="fas fa-globe"></i></a>
-                            <a href="https://www.linkedin.com/in/shane-whelan-364988291/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                    <div class="team-info">
-                        <h3>Shane Whelan</h3>
-                        <span class="team-role">Technical Director</span>
-                        <p>Full-stack developer specialising in automated workflow systems designed to save businesses time and money.</p>
-                    </div>
-                </div>
-
-                <div class="team-card reveal" data-delay="3">
-                    <div class="team-image">
-                        <img src="images/alex.png" alt="Alex McConnell" class="alex-img">
-                        <div class="team-socials">
-                            <a href="https://alexmcconnell.ie" target="_blank" aria-label="Website"><i class="fas fa-globe"></i></a>
-                            <a href="https://www.linkedin.com/in/alexmcconnell1002/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                    <div class="team-info">
-                        <h3>Alex McConnell</h3>
-                        <span class="team-role">Director of AI Automation Solutions</span>
-                        <p>Full-stack developer specialising in AI-driven automation systems, building intelligent workflows that save businesses time and money.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Integrations Section -->
     <section class="section section-dark integrations-section">
         <div class="container">
@@ -755,12 +683,9 @@
 
                 <div class="contact-booking reveal" data-delay="1">
                     <div class="booking-frame-wrap">
-                        <iframe
-                            src="https://links.mediaspheresolutions.com/widget/booking/BJlPB1Ss8QzCbeUzWAwh"
-                            style="width: 100%; border: none; border-radius: 12px; min-height: 850px;"
-                            scrolling="yes"
-                            title="Book a Strategy Call">
-                        </iframe>
+                        <div class="booking-scroll-wrap">
+                            <iframe src="https://links.mediaspheresolutions.com/widget/booking/BJlPB1Ss8QzCbeUzWAwh" style="width: 100%; border: none; display: block;" scrolling="no" id="BJlPB1Ss8QzCbeUzWAwh_1773291741914"></iframe>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -797,7 +722,7 @@
                     <ul>
                         <li><a href="#how-it-works">How It Works</a></li>
                         <li><a href="services.html#add-ons">Growth Add-Ons</a></li>
-                        <li><a href="#team">Our Team</a></li>
+                        <li><a href="about.html">About Us</a></li>
                         <li><a href="#contact">Contact</a></li>
                         <li><a href="https://app.mediaspheresolutions.com" target="_blank">Client Portal</a></li>
                     </ul>
@@ -814,12 +739,42 @@
             </div>
 
             <div class="footer-bottom">
+                <div class="footer-legal">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <span class="footer-legal-sep">|</span>
+                    <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
+                </div>
                 <p>&copy; 2026 MediaSphere Solutions. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
+    <!-- Custom Scroll Indicator -->
+    <aside class="scroll-indicator" id="scrollIndicator" aria-hidden="true">
+        <div class="si-track-wrap">
+            <div class="si-track">
+                <div class="si-fill" id="siFill"></div>
+                <div class="si-thumb" id="siThumb"></div>
+            </div>
+            <nav class="si-section-nav" id="siSectionNav">
+                <button class="si-dot active" data-target="home" aria-label="Home">
+                    <span class="si-dot-label">Home</span>
+                </button>
+                <button class="si-dot" data-flip-dot="true" aria-label="Smart System">
+                    <span class="si-dot-label">Smart System</span>
+                </button>
+                <button class="si-dot" data-target="how-it-works" aria-label="How It Works">
+                    <span class="si-dot-label">How It Works</span>
+                </button>
+                <button class="si-dot" data-target="contact" aria-label="Get Started">
+                    <span class="si-dot-label">Get Started</span>
+                </button>
+            </nav>
+        </div>
+    </aside>
+
     <!-- Scripts -->
     <script src="script.js"></script>
+    <script src="https://links.mediaspheresolutions.com/js/form_embed.js" type="text/javascript"></script>
 </body>
 </html>

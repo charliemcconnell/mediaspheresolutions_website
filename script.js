@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initAppPreview();
     initScrollFlip();
     initOrbitAnimation();
+    initScrollIndicator();
 });
 
 /* --- Navbar scroll effect --- */
@@ -360,6 +361,12 @@ function initScrollFlip() {
         var travel       = sectionH - viewH;
         var animScrolled = Math.max(0, scrolled - stickyLockOffset);
         var animTravel   = Math.max(1, travel - stickyLockOffset);
+
+        // Expose flip state for the scroll indicator
+        if (!window._msFlip) window._msFlip = {};
+        if (!window._msFlip.backScrollY && travel > 0) {
+            window._msFlip.backScrollY = section.offsetTop + stickyLockOffset + ANIM_END * animTravel;
+        }
         var progress     = Math.max(0, Math.min(1, animScrolled / animTravel));
 
         if (Math.abs(progress - lastProgress) < 0.0003) return;
@@ -427,6 +434,7 @@ function initScrollFlip() {
             card.classList.toggle('back-visible', backVisible);
             sticky.classList.toggle('flipped', backVisible);
         }
+        if (window._msFlip) window._msFlip.backVisible = backVisible;
 
         // Fade in system blocks as flip nears completion
         if (sysBlocksWrap) {
@@ -506,4 +514,180 @@ function initOrbitAnimation() {
     }
 
     requestAnimationFrame(tick);
+}
+
+/* --- Custom Scroll Indicator --- */
+function initScrollIndicator() {
+    var indicator = document.getElementById('scrollIndicator');
+    var fill      = document.getElementById('siFill');
+    var thumb     = document.getElementById('siThumb');
+    if (!indicator || !fill || !thumb) return;
+
+    var dots     = Array.from(indicator.querySelectorAll('.si-dot'));
+    var sections = dots.map(function(dot) {
+        return dot.dataset.target ? document.getElementById(dot.dataset.target) : null;
+    });
+
+    // Identify the special flip dot (no data-target, has data-flip-dot)
+    var flipDotIndex = dots.findIndex(function(dot) { return dot.dataset.flipDot === 'true'; });
+
+    // Position each dot at its section's proportional scroll position along the track
+    function positionDots() {
+        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (docHeight <= 0) return;
+        dots.forEach(function(dot, i) {
+            if (i === flipDotIndex) {
+                // Position at the flip completion scroll position
+                var flipScrollY = window._msFlip && window._msFlip.backScrollY;
+                if (flipScrollY != null) {
+                    dot.style.top = Math.min(100, (flipScrollY / docHeight) * 100).toFixed(2) + '%';
+                }
+                return;
+            }
+            var section = sections[i];
+            if (!section) return;
+            var pct = Math.min(100, (section.offsetTop / docHeight) * 100);
+            dot.style.top = pct + '%';
+        });
+    }
+
+    // Fade in the moment scrolling begins
+    var revealed = false;
+    function reveal() {
+        if (!revealed && window.scrollY > 1) {
+            indicator.classList.add('visible');
+            revealed = true;
+        }
+    }
+
+    function update() {
+        reveal();
+
+        var scrollTop = window.scrollY;
+        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        var progress  = docHeight > 0 ? Math.min(1, scrollTop / docHeight) : 0;
+
+        // Update track fill + thumb
+        var pct = (progress * 100).toFixed(2);
+        fill.style.height = pct + '%';
+        thumb.style.top   = pct + '%';
+
+        // Glow intensity scales with progress
+        var glow = 0.5 + progress * 0.5;
+        thumb.style.boxShadow =
+            '0 0 0 3px rgba(99,102,241,' + (glow * 0.25).toFixed(2) + '),' +
+            '0 0 ' + Math.round(10 + progress * 10) + 'px rgba(99,102,241,' + glow.toFixed(2) + '),' +
+            '0 0 ' + Math.round(20 + progress * 20) + 'px rgba(139,92,246,' + (glow * 0.5).toFixed(2) + ')';
+
+        // Activate the dot whose section is currently in view
+        // The flip dot activates when the card back face is visible
+        var flipActive = flipDotIndex >= 0 && window._msFlip && window._msFlip.backVisible;
+        var viewMid = scrollTop + window.innerHeight * 0.4;
+        var active  = 0;
+        sections.forEach(function(section, i) {
+            if (i === flipDotIndex) return; // handled separately
+            if (section && section.offsetTop <= viewMid) { active = i; }
+        });
+        // Reposition flip dot every frame in case backScrollY wasn't ready at init
+        if (flipDotIndex >= 0) {
+            var docH2 = document.documentElement.scrollHeight - window.innerHeight;
+            var flipScrollY = window._msFlip && window._msFlip.backScrollY;
+            if (flipScrollY != null && docH2 > 0) {
+                dots[flipDotIndex].style.top = Math.min(100, (flipScrollY / docH2) * 100).toFixed(2) + '%';
+            }
+        }
+        dots.forEach(function(dot, i) {
+            if (i === flipDotIndex) {
+                dot.classList.toggle('active', !!flipActive);
+            } else {
+                dot.classList.toggle('active', !flipActive && i === active);
+            }
+        });
+    }
+
+    // Dot click → smooth scroll to section (or flip position for the flip dot)
+    dots.forEach(function(dot, i) {
+        dot.addEventListener('click', function() {
+            if (i === flipDotIndex) {
+                var flipScrollY = window._msFlip && window._msFlip.backScrollY;
+                if (flipScrollY != null) {
+                    window.scrollTo({ top: flipScrollY, behavior: 'smooth' });
+                }
+                return;
+            }
+            var target = document.getElementById(dot.dataset.target);
+            if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        });
+    });
+
+    // --- Drag / click-to-scroll on the track ---
+    var track = indicator.querySelector('.si-track');
+    var isDragging = false;
+
+    function scrollToTrackY(clientY) {
+        var rect = track.getBoundingClientRect();
+        var ratio = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
+        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        window.scrollTo({ top: ratio * docHeight, behavior: 'instant' });
+    }
+
+    // Thumb: grab to drag
+    thumb.style.cursor = 'grab';
+    thumb.addEventListener('mousedown', function(e) {
+        e.preventDefault();
+        isDragging = true;
+        thumb.style.cursor = 'grabbing';
+        document.body.style.userSelect = 'none';
+        indicator.classList.add('visible');
+        revealed = true;
+    });
+
+    // Track: click anywhere to jump
+    track.addEventListener('mousedown', function(e) {
+        if (e.target === thumb) return; // handled above
+        e.preventDefault();
+        isDragging = true;
+        document.body.style.userSelect = 'none';
+        scrollToTrackY(e.clientY);
+        indicator.classList.add('visible');
+        revealed = true;
+    });
+
+    document.addEventListener('mousemove', function(e) {
+        if (!isDragging) return;
+        scrollToTrackY(e.clientY);
+    });
+
+    document.addEventListener('mouseup', function() {
+        if (!isDragging) return;
+        isDragging = false;
+        thumb.style.cursor = 'grab';
+        document.body.style.userSelect = '';
+    });
+
+    // Touch support
+    thumb.addEventListener('touchstart', function(e) {
+        isDragging = true;
+        indicator.classList.add('visible');
+        revealed = true;
+    }, { passive: true });
+
+    document.addEventListener('touchmove', function(e) {
+        if (!isDragging) return;
+        scrollToTrackY(e.touches[0].clientY);
+    }, { passive: true });
+
+    document.addEventListener('touchend', function() {
+        isDragging = false;
+    });
+
+    // Re-position dots if window resizes (layout shifts)
+    window.addEventListener('resize', positionDots, { passive: true });
+    window.addEventListener('scroll', update, { passive: true });
+
+    // Wait one frame so layout is fully settled before measuring
+    requestAnimationFrame(function() {
+        positionDots();
+        update();
+    });
 }
