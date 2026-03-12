@@ -305,6 +305,7 @@ function initScrollFlip() {
     var backFace  = card ? card.querySelector('.flip-back') : null;
     var backVisualCol = card ? card.querySelector('.back-visual-col') : null;
     var orbitSidebar = document.getElementById('orbitSidebar');
+    var sysBlocksWrap = backInner ? backInner.querySelector('.back-system-blocks') : null;
 
     if (!section || !cardWrap || !card || !sticky) return;
 
@@ -425,6 +426,11 @@ function initScrollFlip() {
             backVisible = isBackNow;
             card.classList.toggle('back-visible', backVisible);
             sticky.classList.toggle('flipped', backVisible);
+        }
+
+        // Fade in system blocks as flip nears completion
+        if (sysBlocksWrap) {
+            sysBlocksWrap.style.opacity = expandEased > 0.75 ? '1' : '0';
         }
 
         // Phase 2: scroll system content upward through the fullscreen back face

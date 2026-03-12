@@ -1739,6 +1739,11 @@ a.contact-item:hover {
         linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
     background-size: 60px 60px;
     pointer-events: none;
+    transition: opacity 0.6s ease;
+}
+
+.flip-card-wrap.fullscreen .flip-back::before {
+    opacity: 0.44; /* 0.045 * 0.44 ≈ 0.02, matching the page background grid */
 }
 
 /* back face corner accents — removed for seamless colour match */
@@ -1760,7 +1765,7 @@ a.contact-item:hover {
 
 /* back-content: always centred so layout is smooth during the flip animation */
 .back-content {
-    min-height: calc(100vh - 130px);
+    min-height: auto;
     justify-content: center;
     max-width: 860px;
     margin: 0 auto;
@@ -1772,6 +1777,8 @@ a.contact-item:hover {
     display: flex;
     gap: 0;
     overflow: visible;
+    opacity: 0;
+    transition: opacity 2s ease;
 }
 
 /* Left column: the system block text cards */
@@ -1945,7 +1952,7 @@ a.contact-item:hover {
     display: none;
     width: 100%;
     text-align: left;
-    margin-top: 48px;
+    margin-top: 50px;
     padding-top: 0;
     padding-bottom: 600px;
 }
@@ -2040,33 +2047,36 @@ a.contact-item:hover {
 .ecosystem-flow {
     display: flex;
     align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
+    gap: 6px;
+    flex-wrap: nowrap;
     margin: 18px 0 16px;
 }
 
 .eco-node {
     display: flex;
     align-items: center;
-    gap: 6px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    padding: 6px 12px;
+    gap: 5px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
     font-size: 11px;
-    font-weight: 600;
-    color: var(--text-secondary);
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.45);
     white-space: nowrap;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
 }
 
 .eco-node i {
-    font-size: 10px;
+    font-size: 6px;
     color: var(--accent-2);
+    opacity: 0.7;
 }
 
 .eco-arrow {
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.2);
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.15);
     flex-shrink: 0;
 }
 
