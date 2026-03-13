@@ -5,6 +5,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     initNavbar();
     initMobileMenu();
+    initNavIndicator();
     initScrollReveal();
     initStepsLine();
     initCountUp();
@@ -13,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollFlip();
     initOrbitAnimation();
     initScrollIndicator();
+    initLogoSliders();
 });
 
 /* --- Navbar scroll effect --- */
@@ -59,6 +61,94 @@ function initMobileMenu() {
     });
 }
 
+/* --- Nav indicator (liquid glass sliding pill) --- */
+function initNavIndicator() {
+    var menu = document.getElementById('nav-menu');
+    var indicator = document.getElementById('nav-indicator');
+    if (!menu || !indicator) return;
+
+    var links = Array.from(menu.querySelectorAll('.nav-link[data-page]'));
+    if (!links.length) return;
+
+    // Determine which page is active based on the current filename
+    var path = window.location.pathname;
+    var file = path.substring(path.lastIndexOf('/') + 1) || 'index.html';
+    var activePage = null;
+
+    if (file === 'index.html' || file === '' || file === '/') {
+        activePage = 'home';
+    } else if (file === 'services.html') {
+        activePage = 'services';
+    } else if (file === 'about.html') {
+        activePage = 'about';
+    }
+
+    var activeLink = null;
+    links.forEach(function(link) {
+        if (link.dataset.page === activePage) {
+            link.classList.add('active');
+            activeLink = link;
+        }
+    });
+
+    function moveIndicator(target, instant) {
+        if (!target) return;
+        var menuRect = menu.getBoundingClientRect();
+        var linkRect = target.getBoundingClientRect();
+
+        var left = linkRect.left - menuRect.left;
+        var width = linkRect.width;
+
+        if (instant) {
+            indicator.style.transition = 'none';
+        }
+
+        indicator.style.left = left + 'px';
+        indicator.style.width = width + 'px';
+        indicator.classList.add('visible');
+
+        if (instant) {
+            // Force reflow then re-enable transition
+            indicator.offsetHeight;
+            indicator.style.transition = '';
+        }
+    }
+
+    // Position immediately (no animation) on load
+    if (activeLink) {
+        requestAnimationFrame(function() {
+            moveIndicator(activeLink, true);
+        });
+    }
+
+    // Hover: slide indicator to hovered link
+    links.forEach(function(link) {
+        link.addEventListener('mouseenter', function() {
+            moveIndicator(link, false);
+        });
+    });
+
+    // Mouse leave menu: slide back to active link
+    menu.addEventListener('mouseleave', function() {
+        if (activeLink) {
+            moveIndicator(activeLink, false);
+        } else {
+            indicator.classList.remove('visible');
+        }
+    });
+
+    // Reposition on resize and scroll (navbar changes shape when scrolled)
+    var repositionTimer;
+    function reposition() {
+        clearTimeout(repositionTimer);
+        repositionTimer = setTimeout(function() {
+            if (activeLink) moveIndicator(activeLink, true);
+        }, 50);
+    }
+    window.addEventListener('resize', reposition, { passive: true });
+    window.addEventListener('scroll', reposition, { passive: true });
+}
+
 /* --- Scroll Reveal with Intersection Observer --- */
 function initScrollReveal() {
     const elements = document.querySelectorAll('.reveal');
@@ -91,19 +181,11 @@ function initStepsLine() {
     function updateLine() {
         const rect = container.getBoundingClientRect();
         const windowHeight = window.innerHeight;
-        const containerTop = rect.top;
-        const containerHeight = rect.height;
 
-        // Calculate how far through the container we've scrolled
-        const start = containerTop - windowHeight * 0.7;
-        const end = containerTop + containerHeight - windowHeight * 0.3;
-        const current = -start;
-        const total = end - containerTop + windowHeight * 0.7;
+        // Line tip tracks the viewport center through the container
+        const progress = (windowHeight * 0.5 - rect.top) / rect.height;
 
-        let progress = current / total;
-        progress = Math.max(0, Math.min(1, progress));
-
-        lineFill.style.height = (progress * 100) + '%';
+        lineFill.style.height = (Math.max(0, Math.min(1, progress)) * 100) + '%';
     }
 
     window.addEventListener('scroll', updateLine, { passive: true });
@@ -307,6 +389,7 @@ function initScrollFlip() {
     var backVisualCol = card ? card.querySelector('.back-visual-col') : null;
     var orbitSidebar = document.getElementById('orbitSidebar');
     var sysBlocksWrap = backInner ? backInner.querySelector('.back-system-blocks') : null;
+    var flipTrail = document.getElementById('flipTrail');
 
     if (!section || !cardWrap || !card || !sticky) return;
 
@@ -427,6 +510,12 @@ function initScrollFlip() {
             backFace.style.paddingRight  = sidePad.toFixed(1) + 'px';
         }
 
+
+        // Fade out light trail as flip begins
+        if (flipTrail) {
+            var trailOpacity = flipProgress < 0.05 ? 1 : Math.max(0, 1 - (flipProgress - 0.05) / 0.25);
+            flipTrail.style.opacity = trailOpacity;
+        }
 
         var isBackNow = rotY < -90;
         if (isBackNow !== backVisible) {
@@ -689,5 +778,46 @@ function initScrollIndicator() {
     requestAnimationFrame(function() {
         positionDots();
         update();
+    });
+}
+
+/* --- Logo slider: fill viewport & animate both rows --- */
+function initLogoSliders() {
+    var rows = document.querySelectorAll('.logo-row');
+    rows.forEach(function(row, i) {
+        var track = row.querySelector('.logo-track');
+        if (!track) return;
+
+        // Measure one set of original items
+        var origItems = Array.from(track.children);
+        var setWidth = track.scrollWidth;
+        // scrollWidth = N*itemWidth + (N-1)*gap — need one extra gap for a seamless loop period
+        var gap = parseFloat(getComputedStyle(track).gap) || parseFloat(getComputedStyle(track).columnGap) || 0;
+        var loopWidth = setWidth + gap; // true period: N*(itemWidth + gap)
+
+        // Clone items until track is at least 3× the viewport wide
+        while (track.scrollWidth < window.innerWidth * 3) {
+            origItems.forEach(function(item) {
+                var clone = item.cloneNode(true);
+                clone.setAttribute('aria-hidden', 'true');
+                track.appendChild(clone);
+            });
+        }
+
+        // Inject a pixel-precise keyframe for this row
+        var name = 'logoRow' + i;
+        var style = document.createElement('style');
+        var duration = 18; // seconds per one set width
+
+        if (i % 2 === 0) {
+            // Left scroll: 0 → -loopWidth
+            style.textContent = '@keyframes ' + name + '{0%{transform:translateX(0)}100%{transform:translateX(-' + loopWidth + 'px)}}';
+        } else {
+            // Right scroll: -loopWidth → 0 (fill-mode:both ensures 0% applies before first frame)
+            style.textContent = '@keyframes ' + name + '{0%{transform:translateX(-' + loopWidth + 'px)}100%{transform:translateX(0)}}';
+        }
+
+        document.head.appendChild(style);
+        track.style.animation = name + ' ' + duration + 's linear infinite both';
     });
 }

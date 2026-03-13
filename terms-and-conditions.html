@@ -325,15 +325,11 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
+        <div class="container" style="padding-bottom: 32px;">
             <div class="footer-grid">
                 <div class="footer-brand">
                     <img src="images/logo.png" alt="MediaSphere Solutions" class="footer-logo">
                     <p>A connected growth suite for service businesses — marketing, automation, CRM, booking, and more. All handled.</p>
-                    <div class="footer-socials">
-                        <a href="https://www.linkedin.com/company/mediaspheresolutions" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="https://www.instagram.com/mediaspheresolutions" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    </div>
                 </div>
 
                 <div class="footer-links">
@@ -370,6 +366,10 @@
             </div>
 
             <div class="footer-bottom">
+                <div class="footer-socials">
+                    <a href="https://www.linkedin.com/company/mediaspheresolutions" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.instagram.com/mediaspheresolutions" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
                 <div class="footer-legal">
                     <a href="privacy-policy.html">Privacy Policy</a>
                     <span class="footer-legal-sep">|</span>
@@ -378,7 +378,129 @@
                 <p>&copy; 2026 MediaSphere Solutions. All rights reserved.</p>
             </div>
         </div>
+
+        <!-- Large animated MSS text -->
+        <div class="footer-mss-text" id="footer-mss-text">
+            <svg
+                id="mss-svg"
+                class="mss-svg"
+                viewBox="0 0 900 160"
+                preserveAspectRatio="xMidYMid meet"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <defs>
+                    <!-- Stroke gradient -->
+                    <linearGradient id="mss-gradient-stroke" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#8b5cf6"/>
+                        <stop offset="50%" style="stop-color:#a78bfa"/>
+                        <stop offset="100%" style="stop-color:#6d28d9"/>
+                    </linearGradient>
+                    <!-- Fill colour — always purple, cursor mask controls visibility -->
+                    <linearGradient id="mss-fill-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#7c3aed"/>
+                        <stop offset="50%" style="stop-color:#a78bfa"/>
+                        <stop offset="100%" style="stop-color:#7c3aed"/>
+                    </linearGradient>
+                    <!-- Radial mask: white = reveal purple fill, transparent = hide -->
+                    <radialGradient id="mss-cursor-mask-gradient" cx="450" cy="80" r="180" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1"/>
+                        <stop offset="55%" style="stop-color:#ffffff;stop-opacity:0.6"/>
+                        <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0"/>
+                    </radialGradient>
+                    <mask id="mss-cursor-mask">
+                        <rect id="mss-cursor-rect" x="0" y="0" width="900" height="160" fill="url(#mss-cursor-mask-gradient)"/>
+                    </mask>
+                </defs>
+                <!-- Stroke outline layer (always visible, draws in) -->
+                <text
+                    id="mss-stroke-text"
+                    class="mss-text-stroke"
+                    x="450" y="130"
+                    text-anchor="middle"
+                    dominant-baseline="auto"
+                    font-family="'Space Grotesk', sans-serif"
+                    font-weight="700"
+                    font-size="148"
+                    letter-spacing="-4"
+                    fill="none"
+                    stroke="url(#mss-gradient-stroke)"
+                    stroke-width="1"
+                >MSS</text>
+                <!-- Filled layer — purple colour revealed by cursor -->
+                <text
+                    id="mss-fill-text"
+                    class="mss-text-fill"
+                    x="450" y="130"
+                    text-anchor="middle"
+                    dominant-baseline="auto"
+                    font-family="'Space Grotesk', sans-serif"
+                    font-weight="700"
+                    font-size="148"
+                    letter-spacing="-4"
+                    fill="url(#mss-fill-gradient)"
+                    mask="url(#mss-cursor-mask)"
+                >MSS</text>
+            </svg>
+        </div>
     </footer>
+
+    <!-- MSS footer text animation -->
+    <script>
+    (function() {
+        const svg = document.getElementById('mss-svg');
+        const strokeText = document.getElementById('mss-stroke-text');
+        const cursorGradient = document.getElementById('mss-cursor-mask-gradient');
+        const mssWrapper = document.getElementById('footer-mss-text');
+
+        if (!svg || !strokeText || !mssWrapper) return;
+
+        function initStrokeDraw() {
+            const len = strokeText.getTotalLength ? strokeText.getTotalLength() : 2000;
+            strokeText.style.strokeDasharray = len;
+            strokeText.style.strokeDashoffset = len;
+            strokeText.style.transition = 'none';
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            strokeText.style.transition = 'stroke-dashoffset 2s cubic-bezier(0.4, 0, 0.2, 1)';
+                            strokeText.style.strokeDashoffset = '0';
+                        }, 200);
+                        observer.disconnect();
+                    }
+                });
+            }, { threshold: 0.2 });
+            observer.observe(mssWrapper);
+        }
+
+        function initCursorReveal() {
+            document.addEventListener('mousemove', function(e) {
+                const rect = svg.getBoundingClientRect();
+                const svgW = 900, svgH = 160;
+                const cx = ((e.clientX - rect.left) / rect.width) * svgW;
+                const cy = ((e.clientY - rect.top) / rect.height) * svgH;
+                const inZone = e.clientY >= rect.top - 120 && e.clientY <= rect.bottom + 120;
+                const r = inZone ? Math.max(rect.width, rect.height) * 0.28 : 0;
+                cursorGradient.setAttribute('cx', cx);
+                cursorGradient.setAttribute('cy', cy);
+                cursorGradient.setAttribute('r', r);
+                cursorGradient.setAttribute('gradientUnits', 'userSpaceOnUse');
+            });
+        }
+
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(function() {
+                initStrokeDraw();
+                initCursorReveal();
+            });
+        } else {
+            window.addEventListener('load', function() {
+                initStrokeDraw();
+                initCursorReveal();
+            });
+        }
+    })();
+    </script>
 
     <script>
         // Navbar scroll effect

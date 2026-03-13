@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MediaSphere Solutions | Services & Growth Add-Ons</title>
-    <meta name="description" content="Everything your business needs to grow online — core services and powerful growth add-ons from MediaSphere Solutions.">
+    <meta name="description" content="Everything your business needs to grow online. Core services and powerful growth add-ons from MediaSphere Solutions.">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,12 +30,12 @@
             </a>
 
             <div class="nav-menu" id="nav-menu">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="#services" class="nav-link">Services</a>
-
-                <a href="about.html" class="nav-link">About Us</a>
-                <a href="index.html#contact" class="nav-link">Get Started</a>
+                <a href="index.html" class="nav-link" data-page="home">Home</a>
+                <a href="services.html" class="nav-link" data-page="services">Services</a>
+                <a href="about.html" class="nav-link" data-page="about">About Us</a>
+                <a href="index.html#contact" class="nav-link" data-page="contact">Get Started</a>
                 <a href="https://app.mediaspheresolutions.com" class="nav-link nav-cta-mobile" target="_blank">Client Login</a>
+                <div class="nav-indicator" id="nav-indicator"></div>
             </div>
 
             <div class="nav-right">
@@ -50,207 +50,254 @@
         </div>
     </nav>
 
-    <!-- Core Services Section -->
-    <section id="services" class="section section-dark" style="padding-top: 120px;">
+    <!-- Services Hero -->
+    <section class="svc-hero" id="services">
         <div class="container">
-            <div class="section-header reveal">
-                <span class="section-tag">Full Service Suite</span>
-                <h2 class="section-title">Everything Your Business<br><span class="gradient-text">Needs to Grow Online</span></h2>
-                <p class="section-subtitle">From the first enquiry to the final review — every step covered, connected, and handled.</p>
+            <div class="svc-hero-content reveal">
+                <span class="section-tag">What We Do</span>
+                <h1 class="svc-hero-title">From First Click to<br><span class="gradient-text">Repeat Customer</span></h1>
+                <p class="svc-hero-sub">We build the entire system: the ads that bring people in, the tools that convert them, and the automations that keep them coming back. Here's every piece of that puzzle.</p>
             </div>
+        </div>
+    </section>
 
-            <div class="services-grid">
-                <div class="service-card reveal" data-delay="0">
-                    <div class="service-icon-wrap">
-                        <div class="service-icon">
+    <!-- Service Feature Rows -->
+    <section class="svc-features">
+
+        <!-- 01 — Get Found -->
+        <div class="svc-row svc-row--dark">
+            <div class="container">
+                <div class="svc-split reveal">
+                    <div class="svc-split__visual">
+                        <div class="svc-num">01</div>
+                        <div class="svc-icon-lg svc-icon-lg--indigo">
                             <i class="fas fa-bullseye"></i>
                         </div>
                     </div>
-                    <h3>Get Found</h3>
-                    <p>Google Ads, Meta Ads & SEO that put your business in front of the right people at the right time. More visibility, more enquiries, less guesswork.</p>
-                    <ul class="service-tags">
-                        <li>Google Ads</li>
-                        <li>Meta Ads</li>
-                        <li>SEO</li>
-                    </ul>
+                    <div class="svc-split__content">
+                        <h2>Get Found</h2>
+                        <p>Your customers are searching right now. Google Ads, Meta Ads, and SEO put your business exactly where they're looking, so the phone rings before your competitor's does.</p>
+                        <p class="svc-detail">We handle keyword research, ad creative, bid management, and on-page SEO. You get more visibility without learning a single dashboard.</p>
+                        <div class="svc-pills">
+                            <span>Google Ads</span>
+                            <span>Meta Ads</span>
+                            <span>SEO</span>
+                            <span>Keyword Research</span>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="service-card reveal" data-delay="1">
-                    <div class="service-icon-wrap">
-                        <div class="service-icon">
+        <!-- 02 — Get Booked -->
+        <div class="svc-row">
+            <div class="container">
+                <div class="svc-split svc-split--reverse reveal">
+                    <div class="svc-split__visual">
+                        <div class="svc-num">02</div>
+                        <div class="svc-icon-lg svc-icon-lg--purple">
                             <i class="fas fa-calendar-check"></i>
                         </div>
                     </div>
-                    <h3>Get Booked</h3>
-                    <p>A seamless calendar booking system that lets customers schedule appointments directly — no back-and-forth, no missed opportunities, no friction.</p>
-                    <ul class="service-tags">
-                        <li>Online Booking</li>
-                        <li>Calendar Sync</li>
-                        <li>Auto-Confirm</li>
-                    </ul>
+                    <div class="svc-split__content">
+                        <h2>Get Booked</h2>
+                        <p>No more back-and-forth texts trying to find a time. Customers pick a slot, confirm instantly, and it lands straight in your calendar.</p>
+                        <p class="svc-detail">The booking system syncs with Google Calendar, sends automatic reminders, and cuts no-shows. You just show up.</p>
+                        <div class="svc-pills">
+                            <span>Online Booking</span>
+                            <span>Calendar Sync</span>
+                            <span>Auto-Confirm</span>
+                            <span>Reminders</span>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="service-card reveal" data-delay="2">
-                    <div class="service-icon-wrap">
-                        <div class="service-icon">
+        <!-- 03 — Get Reviews -->
+        <div class="svc-row svc-row--dark">
+            <div class="container">
+                <div class="svc-split reveal">
+                    <div class="svc-split__visual">
+                        <div class="svc-num">03</div>
+                        <div class="svc-icon-lg svc-icon-lg--cyan">
                             <i class="fas fa-star"></i>
                         </div>
                     </div>
-                    <h3>Get Reviews</h3>
-                    <p>Automated review requests and reputation monitoring that build trust and keep you ahead of the competition.</p>
-                    <ul class="service-tags">
-                        <li>Review Generation</li>
-                        <li>Reputation Monitoring</li>
-                        <li>Response Management</li>
-                    </ul>
+                    <div class="svc-split__content">
+                        <h2>Get Reviews</h2>
+                        <p>Great work deserves great reviews. We automatically ask happy customers for feedback at the perfect moment, while the job's still fresh.</p>
+                        <p class="svc-detail">Monitor your reputation across Google, respond to reviews from one place, and let your 5-star track record do the selling for you.</p>
+                        <div class="svc-pills">
+                            <span>Review Requests</span>
+                            <span>Reputation Monitoring</span>
+                            <span>Response Management</span>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="service-card reveal" data-delay="3">
-                    <div class="service-icon-wrap">
-                        <div class="service-icon">
+        <!-- 04 — Stay Organised -->
+        <div class="svc-row">
+            <div class="container">
+                <div class="svc-split svc-split--reverse reveal">
+                    <div class="svc-split__visual">
+                        <div class="svc-num">04</div>
+                        <div class="svc-icon-lg svc-icon-lg--indigo">
                             <i class="fas fa-address-book"></i>
                         </div>
                     </div>
-                    <h3>Stay Organised</h3>
-                    <p>A CRM built for service businesses — track every lead, enquiry, and customer without spreadsheets or sticky notes.</p>
-                    <ul class="service-tags">
-                        <li>CRM</li>
-                        <li>Customer Tracking</li>
-                        <li>Pipeline Management</li>
-                    </ul>
+                    <div class="svc-split__content">
+                        <h2>Stay Organised</h2>
+                        <p>Every lead, every conversation, every job, all tracked in one place. No more spreadsheets, sticky notes, or "I'll remember that later."</p>
+                        <p class="svc-detail">Our CRM is built for service businesses, not enterprise sales teams. See your pipeline at a glance and never let a lead slip through the cracks.</p>
+                        <div class="svc-pills">
+                            <span>CRM</span>
+                            <span>Lead Tracking</span>
+                            <span>Pipeline View</span>
+                            <span>Contact History</span>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="service-card reveal" data-delay="4">
-                    <div class="service-icon-wrap">
-                        <div class="service-icon">
+        <!-- 05 — Never Miss a Call -->
+        <div class="svc-row svc-row--dark">
+            <div class="container">
+                <div class="svc-split reveal">
+                    <div class="svc-split__visual">
+                        <div class="svc-num">05</div>
+                        <div class="svc-icon-lg svc-icon-lg--purple">
                             <i class="fas fa-phone-volume"></i>
                         </div>
                     </div>
-                    <h3>Never Miss a Call</h3>
-                    <p>AI receptionist answers when you can't. Missed call? An instant text-back keeps the lead warm until you're free.</p>
-                    <ul class="service-tags">
-                        <li>AI Receptionist</li>
-                        <li>Missed Call Text-Back</li>
-                        <li>24/7 Coverage</li>
-                    </ul>
+                    <div class="svc-split__content">
+                        <h2>Never Miss a Call</h2>
+                        <p>You're up a ladder. You're with a client. You're driving. The phone rings, you can't answer, and that lead is gone. Not anymore.</p>
+                        <p class="svc-detail">Our AI receptionist picks up when you can't. Missed call? An instant text-back keeps the conversation going until you're free. 24/7 coverage, zero staff overhead.</p>
+                        <div class="svc-pills">
+                            <span>AI Receptionist</span>
+                            <span>Missed Call Text-Back</span>
+                            <span>24/7 Coverage</span>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="service-card reveal" data-delay="5">
-                    <div class="service-icon-wrap">
-                        <div class="service-icon">
+        <!-- 06 — Work Smarter -->
+        <div class="svc-row">
+            <div class="container">
+                <div class="svc-split svc-split--reverse reveal">
+                    <div class="svc-split__visual">
+                        <div class="svc-num">06</div>
+                        <div class="svc-icon-lg svc-icon-lg--cyan">
                             <i class="fas fa-wand-magic-sparkles"></i>
                         </div>
                     </div>
-                    <h3>Work Smarter</h3>
-                    <p>Custom automations and workflows that eliminate repetitive admin so you can focus on running your business, not chasing it.</p>
-                    <ul class="service-tags">
-                        <li>Custom Automation</li>
-                        <li>Workflow Design</li>
-                        <li>Integration</li>
-                    </ul>
+                    <div class="svc-split__content">
+                        <h2>Work Smarter</h2>
+                        <p>Stop doing the same admin tasks over and over. We build custom automations that handle the repetitive stuff like follow-ups, reminders, and invoices.</p>
+                        <p class="svc-detail">Every workflow is tailored to how your business actually runs. Less busywork, more of the work that pays.</p>
+                        <div class="svc-pills">
+                            <span>Custom Automation</span>
+                            <span>Workflow Design</span>
+                            <span>Integrations</span>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="service-card reveal" data-delay="6">
-                    <div class="service-icon-wrap">
-                        <div class="service-icon">
+        <!-- 07 — Look the Part -->
+        <div class="svc-row svc-row--dark">
+            <div class="container">
+                <div class="svc-split reveal">
+                    <div class="svc-split__visual">
+                        <div class="svc-num">07</div>
+                        <div class="svc-icon-lg svc-icon-lg--indigo">
                             <i class="fas fa-laptop-code"></i>
                         </div>
                     </div>
-                    <h3>Look the Part</h3>
-                    <p>A professional website that converts visitors into paying customers. Fast, mobile-friendly, and built to impress.</p>
-                    <ul class="service-tags">
-                        <li>Website Design</li>
-                        <li>Mobile-First</li>
-                        <li>Conversion-Focused</li>
-                    </ul>
+                    <div class="svc-split__content">
+                        <h2>Look the Part</h2>
+                        <p>First impressions happen online. A sharp, fast, mobile-friendly website tells customers you're the real deal before you ever speak to them.</p>
+                        <p class="svc-detail">We design and build sites that actually convert. Not just pretty pages, but pages that turn visitors into paying customers.</p>
+                        <div class="svc-pills">
+                            <span>Website Design</span>
+                            <span>Mobile-First</span>
+                            <span>Conversion-Focused</span>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="service-card reveal" data-delay="7">
-                    <div class="service-icon-wrap">
-                        <div class="service-icon">
+        <!-- 08 — Own Your Area -->
+        <div class="svc-row">
+            <div class="container">
+                <div class="svc-split svc-split--reverse reveal">
+                    <div class="svc-split__visual">
+                        <div class="svc-num">08</div>
+                        <div class="svc-icon-lg svc-icon-lg--purple">
                             <i class="fas fa-map-location-dot"></i>
                         </div>
                     </div>
-                    <h3>Own Your Area</h3>
-                    <p>Google Business Profile management that makes you the go-to business in your area. Show up first when locals search — and stay there.</p>
-                    <ul class="service-tags">
-                        <li>GBP Management</li>
-                        <li>Local SEO</li>
-                        <li>Map Pack Rankings</li>
+                    <div class="svc-split__content">
+                        <h2>Own Your Area</h2>
+                        <p>When someone nearby searches for what you do, you should be the first name they see. We make that happen.</p>
+                        <p class="svc-detail">Google Business Profile management, local SEO, and map pack strategy that keeps you at the top of local search, consistently.</p>
+                        <div class="svc-pills">
+                            <span>GBP Management</span>
+                            <span>Local SEO</span>
+                            <span>Map Pack Rankings</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Growth Add-Ons + CTA -->
+    <section id="add-ons" class="svc-bottom">
+        <div class="container">
+            <div class="svc-bottom-split reveal">
+                <div class="svc-bottom-left">
+                    <span class="section-tag">Level Up</span>
+                    <h2 class="svc-bottom-heading">Growth Add-Ons</h2>
+                    <p class="svc-bottom-sub">Bolt these on when you're ready to push further.</p>
+                    <ul class="svc-addon-list">
+                        <li><i class="fas fa-file-lines"></i> Landing Pages</li>
+                        <li><i class="fas fa-envelope-open-text"></i> Email &amp; SMS Follow-Ups</li>
+                        <li><i class="fas fa-hashtag"></i> Social Media Management</li>
+                        <li><i class="fas fa-images"></i> Before &amp; After Showcases</li>
+                        <li><i class="fab fa-whatsapp"></i> WhatsApp Integration</li>
+                        <li><i class="fas fa-robot"></i> Website Chat Bot</li>
+                        <li><i class="fas fa-user-plus"></i> Referral Systems</li>
+                        <li><i class="fas fa-chart-pie"></i> Reporting Dashboard</li>
                     </ul>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Growth Add-Ons Section -->
-    <section id="add-ons" class="section section-gradient">
-        <div class="container">
-            <div class="section-header reveal">
-                <span class="section-tag">Level Up</span>
-                <h2 class="section-title">Growth Add-Ons</h2>
-                <p class="section-subtitle">Your core setup is just the beginning. Layer in powerful extras to accelerate growth, improve client experience, and unlock new channels.</p>
-            </div>
-
-            <div class="addons-grid reveal">
-                <div class="addon-item">
-                    <div class="addon-icon"><i class="fas fa-file-lines"></i></div>
-                    <span>Landing Pages</span>
+                <div class="svc-bottom-right">
+                    <div class="svc-bottom-right-inner">
+                        <h3>Ready to Get Started?</h3>
+                        <p>Book a free strategy call and we'll build the right setup for your business.</p>
+                        <a href="index.html#contact" class="btn btn-primary">Book a Free Strategy Call</a>
+                    </div>
                 </div>
-                <div class="addon-item">
-                    <div class="addon-icon"><i class="fas fa-envelope-open-text"></i></div>
-                    <span>Email/SMS Follow-Ups</span>
-                </div>
-                <div class="addon-item">
-                    <div class="addon-icon"><i class="fas fa-hashtag"></i></div>
-                    <span>Social Media Management</span>
-                </div>
-                <div class="addon-item">
-                    <div class="addon-icon"><i class="fas fa-images"></i></div>
-                    <span>Before/After Showcases</span>
-                </div>
-                <div class="addon-item">
-                    <div class="addon-icon"><i class="fab fa-whatsapp"></i></div>
-                    <span>WhatsApp Integration</span>
-                </div>
-                <div class="addon-item">
-                    <div class="addon-icon"><i class="fas fa-robot"></i></div>
-                    <span>Website Chat Bot</span>
-                </div>
-                <div class="addon-item">
-                    <div class="addon-icon"><i class="fas fa-user-plus"></i></div>
-                    <span>Referral Systems</span>
-                </div>
-                <div class="addon-item">
-                    <div class="addon-icon"><i class="fas fa-chart-pie"></i></div>
-                    <span>Monthly Reporting Dashboard</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="section section-dark">
-        <div class="container" style="text-align: center;">
-            <div class="section-header reveal">
-                <h2 class="section-title">Ready to Get Started?</h2>
-                <p class="section-subtitle">Book a free strategy call and we'll build the right setup for your business.</p>
-                <a href="index.html#contact" class="btn btn-primary" style="display: inline-block; margin-top: 1.5rem;">Book a Free Strategy Call</a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
+        <div class="container" style="padding-bottom: 32px;">
             <div class="footer-grid">
                 <div class="footer-brand">
                     <img src="images/logo.png" alt="MediaSphere Solutions" class="footer-logo">
-                    <p>A connected growth suite for service businesses — marketing, automation, CRM, booking, and more. All handled.</p>
-                    <div class="footer-socials">
-                        <a href="https://www.linkedin.com/company/mediaspheresolutions" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="https://www.instagram.com/mediaspheresolutions" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    </div>
+                    <p>A connected growth suite for service businesses. Marketing, automation, CRM, booking, and more. All handled.</p>
                 </div>
 
                 <div class="footer-links">
@@ -287,10 +334,310 @@
             </div>
 
             <div class="footer-bottom">
+                <div class="footer-socials">
+                    <a href="https://www.linkedin.com/company/mediaspheresolutions" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.instagram.com/mediaspheresolutions" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+                <div class="footer-legal">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <span class="footer-legal-sep">|</span>
+                    <a href="terms-and-conditions.html">Terms &amp; Conditions</a>
+                </div>
                 <p>&copy; 2026 MediaSphere Solutions. All rights reserved.</p>
             </div>
         </div>
+
+        <!-- Large animated MSS text -->
+        <div class="footer-mss-text" id="footer-mss-text">
+            <svg
+                id="mss-svg"
+                class="mss-svg"
+                viewBox="0 0 900 160"
+                preserveAspectRatio="xMidYMid meet"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <defs>
+                    <!-- Stroke gradient -->
+                    <linearGradient id="mss-gradient-stroke" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#8b5cf6"/>
+                        <stop offset="50%" style="stop-color:#a78bfa"/>
+                        <stop offset="100%" style="stop-color:#6d28d9"/>
+                    </linearGradient>
+                    <!-- Fill colour — always purple, cursor mask controls visibility -->
+                    <linearGradient id="mss-fill-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#7c3aed"/>
+                        <stop offset="50%" style="stop-color:#a78bfa"/>
+                        <stop offset="100%" style="stop-color:#7c3aed"/>
+                    </linearGradient>
+                    <!-- Radial mask: white = reveal purple fill, transparent = hide -->
+                    <radialGradient id="mss-cursor-mask-gradient" cx="450" cy="80" r="180" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1"/>
+                        <stop offset="55%" style="stop-color:#ffffff;stop-opacity:0.6"/>
+                        <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0"/>
+                    </radialGradient>
+                    <mask id="mss-cursor-mask">
+                        <rect id="mss-cursor-rect" x="0" y="0" width="900" height="160" fill="url(#mss-cursor-mask-gradient)"/>
+                    </mask>
+                </defs>
+                <!-- Stroke outline layer (always visible, draws in) -->
+                <text
+                    id="mss-stroke-text"
+                    class="mss-text-stroke"
+                    x="450" y="130"
+                    text-anchor="middle"
+                    dominant-baseline="auto"
+                    font-family="'Space Grotesk', sans-serif"
+                    font-weight="700"
+                    font-size="148"
+                    letter-spacing="-4"
+                    fill="none"
+                    stroke="url(#mss-gradient-stroke)"
+                    stroke-width="1"
+                >MSS</text>
+                <!-- Filled layer — purple colour revealed by cursor -->
+                <text
+                    id="mss-fill-text"
+                    class="mss-text-fill"
+                    x="450" y="130"
+                    text-anchor="middle"
+                    dominant-baseline="auto"
+                    font-family="'Space Grotesk', sans-serif"
+                    font-weight="700"
+                    font-size="148"
+                    letter-spacing="-4"
+                    fill="url(#mss-fill-gradient)"
+                    mask="url(#mss-cursor-mask)"
+                >MSS</text>
+            </svg>
+        </div>
     </footer>
+
+    <!-- Scroll-trace serpentine animation -->
+    <script>
+    (function () {
+        var features = document.querySelector('.svc-features');
+        if (!features || window.innerWidth < 769) return;
+
+        var svgNS = 'http://www.w3.org/2000/svg';
+
+        // Build SVG
+        var svg = document.createElementNS(svgNS, 'svg');
+        svg.classList.add('svc-trace-svg');
+
+        var defs = document.createElementNS(svgNS, 'defs');
+        var grad = document.createElementNS(svgNS, 'linearGradient');
+        grad.id = 'svc-trace-gradient';
+        grad.setAttribute('gradientUnits', 'userSpaceOnUse');
+        var stop1 = document.createElementNS(svgNS, 'stop');
+        stop1.setAttribute('offset', '0%');
+        stop1.setAttribute('stop-color', '#6366f1');
+        stop1.setAttribute('stop-opacity', '0');
+        var stop2 = document.createElementNS(svgNS, 'stop');
+        stop2.setAttribute('offset', '100%');
+        stop2.setAttribute('stop-color', '#a78bfa');
+        stop2.setAttribute('stop-opacity', '0.9');
+        grad.appendChild(stop1);
+        grad.appendChild(stop2);
+        defs.appendChild(grad);
+        svg.appendChild(defs);
+
+        var bgPath = document.createElementNS(svgNS, 'path');
+        bgPath.classList.add('svc-trace-bg');
+        svg.appendChild(bgPath);
+
+        var trailPath = document.createElementNS(svgNS, 'path');
+        trailPath.classList.add('svc-trace-trail');
+        svg.appendChild(trailPath);
+
+        features.appendChild(svg);
+
+        // Build orb
+        var orb = document.createElement('div');
+        orb.classList.add('svc-trace-orb');
+        features.appendChild(orb);
+
+        var totalLength = 0;
+
+        function getPoints() {
+            var rows = Array.from(features.querySelectorAll('.svc-row'));
+            var featRect = features.getBoundingClientRect();
+            var inset = 12;
+            var container = rows[0].querySelector('.container');
+            var contRect = container.getBoundingClientRect();
+            var left = contRect.left - featRect.left + inset;
+            var right = contRect.right - featRect.left - inset;
+            var points = [];
+
+            rows.forEach(function (row, i) {
+                var rr = row.getBoundingClientRect();
+                var top = rr.top - featRect.top + inset;
+                var bottom = rr.bottom - featRect.top - inset;
+
+                if (i % 2 === 0) {
+                    points.push({ x: left,  y: top });
+                    points.push({ x: right, y: top });
+                    points.push({ x: right, y: bottom });
+                } else {
+                    points.push({ x: right, y: top });
+                    points.push({ x: left,  y: top });
+                    points.push({ x: left,  y: bottom });
+                }
+            });
+            return points;
+        }
+
+        function buildRoundedPath(pts, r) {
+            if (pts.length < 2) return '';
+            var d = 'M ' + pts[0].x + ' ' + pts[0].y;
+
+            for (var i = 1; i < pts.length - 1; i++) {
+                var prev = pts[i - 1], curr = pts[i], next = pts[i + 1];
+                var dx1 = curr.x - prev.x, dy1 = curr.y - prev.y;
+                var dx2 = next.x - curr.x, dy2 = next.y - curr.y;
+                var len1 = Math.sqrt(dx1 * dx1 + dy1 * dy1);
+                var len2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+                var cr = Math.min(r, len1 / 2, len2 / 2);
+
+                var bx = curr.x - (dx1 / len1) * cr;
+                var by = curr.y - (dy1 / len1) * cr;
+                var ax = curr.x + (dx2 / len2) * cr;
+                var ay = curr.y + (dy2 / len2) * cr;
+
+                d += ' L ' + bx + ' ' + by;
+                d += ' Q ' + curr.x + ' ' + curr.y + ' ' + ax + ' ' + ay;
+            }
+            d += ' L ' + pts[pts.length - 1].x + ' ' + pts[pts.length - 1].y;
+            return d;
+        }
+
+        function rebuild() {
+            var w = features.offsetWidth;
+            var h = features.offsetHeight;
+            svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+
+            var pts = getPoints();
+            var d = buildRoundedPath(pts, 24);
+            bgPath.setAttribute('d', d);
+            trailPath.setAttribute('d', d);
+            totalLength = bgPath.getTotalLength();
+            trailPath.style.strokeDasharray = totalLength;
+            trailPath.style.strokeDashoffset = totalLength;
+        }
+
+        function onScroll() {
+            if (!totalLength) return;
+
+            var featRect = features.getBoundingClientRect();
+            var mid = window.innerHeight / 2;
+            var progress = (mid - featRect.top) / featRect.height;
+            var clamped = Math.max(0, Math.min(1, progress));
+
+            var visible = progress > 0.01 && progress < 0.99;
+            if (visible) {
+                orb.classList.add('svc-trace-orb--visible');
+            } else {
+                orb.classList.remove('svc-trace-orb--visible');
+            }
+            if (!visible) return;
+
+            var currentLen = clamped * totalLength;
+            var pt = bgPath.getPointAtLength(currentLen);
+
+            // Trail
+            trailPath.style.strokeDashoffset = totalLength - currentLen;
+
+            // Gradient follows orb
+            var trailBack = bgPath.getPointAtLength(Math.max(0, currentLen - 350));
+            grad.setAttribute('x1', trailBack.x);
+            grad.setAttribute('y1', trailBack.y);
+            grad.setAttribute('x2', pt.x);
+            grad.setAttribute('y2', pt.y);
+
+            // Position orb
+            orb.style.left = pt.x + 'px';
+            orb.style.top = pt.y + 'px';
+        }
+
+        var ticking = false;
+        function handleScroll() {
+            if (!ticking) {
+                requestAnimationFrame(function () {
+                    onScroll();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+
+        window.addEventListener('load', function () {
+            rebuild();
+            onScroll();
+        });
+        window.addEventListener('resize', function () {
+            rebuild();
+            onScroll();
+        });
+        window.addEventListener('scroll', handleScroll, { passive: true });
+    })();
+    </script>
+
+    <!-- MSS footer text animation -->
+    <script>
+    (function() {
+        const svg = document.getElementById('mss-svg');
+        const strokeText = document.getElementById('mss-stroke-text');
+        const cursorGradient = document.getElementById('mss-cursor-mask-gradient');
+        const mssWrapper = document.getElementById('footer-mss-text');
+
+        if (!svg || !strokeText || !mssWrapper) return;
+
+        function initStrokeDraw() {
+            const len = strokeText.getTotalLength ? strokeText.getTotalLength() : 2000;
+            strokeText.style.strokeDasharray = len;
+            strokeText.style.strokeDashoffset = len;
+            strokeText.style.transition = 'none';
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            strokeText.style.transition = 'stroke-dashoffset 2s cubic-bezier(0.4, 0, 0.2, 1)';
+                            strokeText.style.strokeDashoffset = '0';
+                        }, 200);
+                        observer.disconnect();
+                    }
+                });
+            }, { threshold: 0.2 });
+            observer.observe(mssWrapper);
+        }
+
+        function initCursorReveal() {
+            document.addEventListener('mousemove', function(e) {
+                const rect = svg.getBoundingClientRect();
+                const svgW = 900, svgH = 160;
+                const cx = ((e.clientX - rect.left) / rect.width) * svgW;
+                const cy = ((e.clientY - rect.top) / rect.height) * svgH;
+                const inZone = e.clientY >= rect.top - 120 && e.clientY <= rect.bottom + 120;
+                const r = inZone ? Math.max(rect.width, rect.height) * 0.28 : 0;
+                cursorGradient.setAttribute('cx', cx);
+                cursorGradient.setAttribute('cy', cy);
+                cursorGradient.setAttribute('r', r);
+                cursorGradient.setAttribute('gradientUnits', 'userSpaceOnUse');
+            });
+        }
+
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(function() {
+                initStrokeDraw();
+                initCursorReveal();
+            });
+        } else {
+            window.addEventListener('load', function() {
+                initStrokeDraw();
+                initCursorReveal();
+            });
+        }
+    })();
+    </script>
 
     <!-- Scripts -->
     <script src="script.js"></script>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MediaSphere Solutions | About Us</title>
-    <meta name="description" content="Learn about MediaSphere Solutions — the team, the mission, and the values behind the connected growth suite for service businesses.">
+    <meta name="description" content="Learn about MediaSphere Solutions. The team, the mission, and the values behind the connected growth suite for service businesses.">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,12 +30,12 @@
             </a>
 
             <div class="nav-menu" id="nav-menu">
-                <a href="index.html" class="nav-link">Home</a>
-                <a href="services.html" class="nav-link">Services</a>
-
-                <a href="about.html" class="nav-link">About Us</a>
-                <a href="index.html#contact" class="nav-link">Get Started</a>
+                <a href="index.html" class="nav-link" data-page="home">Home</a>
+                <a href="services.html" class="nav-link" data-page="services">Services</a>
+                <a href="about.html" class="nav-link" data-page="about">About Us</a>
+                <a href="index.html#contact" class="nav-link" data-page="contact">Get Started</a>
                 <a href="https://app.mediaspheresolutions.com" class="nav-link nav-cta-mobile" target="_blank">Client Login</a>
+                <div class="nav-indicator" id="nav-indicator"></div>
             </div>
 
             <div class="nav-right">
@@ -55,7 +55,7 @@
         <div class="container" style="padding-bottom: 0;">
             <div class="section-header reveal">
                 <h2 class="section-title" style="font-size: clamp(2.4rem, 5vw, 4rem);">Built in Dublin,<br><span class="gradient-text">Serving the World</span></h2>
-                <p class="section-subtitle">From our base in Ireland, we partner with service businesses across the globe — delivering measurable results in every timezone.</p>
+                <p class="section-subtitle">From our base in Ireland, we partner with service businesses across the globe, delivering measurable results in every timezone.</p>
             </div>
         </div>
         <div class="map-wrapper">
@@ -86,20 +86,6 @@
 
                 <div class="team-card reveal" data-delay="1">
                     <div class="team-image">
-                        <img src="images/james.png" alt="James Colville">
-                        <div class="team-socials">
-                            <a href="https://www.linkedin.com/in/james-colville-1b710b367/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                    <div class="team-info">
-                        <h3>James Colville</h3>
-                        <span class="team-role">Head of Marketing</span>
-                        <p>Performance marketing specialist focused on measuring results and optimising systems accordingly.</p>
-                    </div>
-                </div>
-
-                <div class="team-card reveal" data-delay="2">
-                    <div class="team-image">
                         <img src="images/shane.png" alt="Shane Whelan">
                         <div class="team-socials">
                             <a href="https://shane-whelan.ie" target="_blank" aria-label="Website"><i class="fas fa-globe"></i></a>
@@ -110,6 +96,20 @@
                         <h3>Shane Whelan</h3>
                         <span class="team-role">Technical Director</span>
                         <p>Full-stack developer specialising in automated workflow systems designed to save businesses time and money.</p>
+                    </div>
+                </div>
+
+                <div class="team-card reveal" data-delay="2">
+                    <div class="team-image">
+                        <img src="images/JamesFounder.jpg" alt="James Colville">
+                        <div class="team-socials">
+                            <a href="https://www.linkedin.com/in/james-colville-1b710b367/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="team-info">
+                        <h3>James Colville</h3>
+                        <span class="team-role">Head of Marketing</span>
+                        <p>Performance marketing specialist focused on measuring results and optimising systems accordingly.</p>
                     </div>
                 </div>
 
@@ -138,8 +138,8 @@
             <div class="about-story reveal">
                 <div class="about-story-text">
                     <h2 class="section-title" style="text-align: left; font-size: 2rem; margin-bottom: 1.25rem;">Where It All Started</h2>
-                    <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 1rem;">MediaSphere Solutions was founded on a simple observation: most service businesses are great at what they do, but lose time and money because their marketing, bookings, follow-ups, and admin all live in separate places — or don't exist at all.</p>
-                    <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 1rem;">We set out to change that. By combining smart marketing, AI-powered automation, and a connected CRM into one cohesive system, we give service businesses the same kind of infrastructure that big companies rely on — without the complexity or the price tag.</p>
+                    <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 1rem;">MediaSphere Solutions was founded on a simple observation: most service businesses are great at what they do, but lose time and money because their marketing, bookings, follow-ups, and admin all live in separate places, or don't exist at all.</p>
+                    <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 1rem;">We set out to change that. By combining smart marketing, AI-powered automation, and a connected CRM into one cohesive system, we give service businesses the same kind of infrastructure that big companies rely on, without the complexity or the price tag.</p>
                     <p style="color: var(--text-secondary); line-height: 1.8;">Today we work with businesses across Ireland and beyond, helping them get found online, convert more enquiries, and stop letting leads fall through the cracks.</p>
                 </div>
                 <div class="about-story-stats reveal" data-delay="1">
@@ -169,27 +169,54 @@
         <div class="container">
             <h2 class="section-title" style="text-align: left; font-size: 2rem; margin-bottom: 1.25rem;">Our Values</h2>
 
-            <div class="values-list reveal" data-delay="0">
-                <div class="value-row">
-                    <span class="value-num">01</span>
-                    <h4>Move Fast, Build Right</h4>
-                    <p>We move quickly without cutting corners. Speed matters, but so does building systems that hold up over time.</p>
+            <div class="values-editorial reveal" data-delay="0">
+
+                <!-- 01 & 02 — text left, image right -->
+                <div class="values-block values-block--text-left">
+                    <div class="values-block-text">
+                        <div class="value-entry">
+                            <span class="value-num-large">01</span>
+                            <div class="value-entry-body">
+                                <h4>Move Fast, Build Right</h4>
+                                <p>We move quickly without cutting corners. Speed matters, but so does building systems that hold up over time.</p>
+                            </div>
+                        </div>
+                        <div class="value-entry">
+                            <span class="value-num-large">02</span>
+                            <div class="value-entry-body">
+                                <h4>Full Transparency</h4>
+                                <p>No black boxes. You'll always understand what we're doing, what's working, and what we're changing, and why.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="values-block-image">
+                        <img src="images/charlie.presenting.jpg" alt="Charlie presenting" class="values-img">
+                    </div>
                 </div>
-                <div class="value-row">
-                    <span class="value-num">02</span>
-                    <h4>Full Transparency</h4>
-                    <p>No black boxes. You'll always understand what we're doing, what's working, and what we're changing — and why.</p>
+
+                <!-- 03 & 04 — image left, text right -->
+                <div class="values-block values-block--text-right">
+                    <div class="values-block-image">
+                        <img src="images/consulting.jpg" alt="Consulting" class="values-img">
+                    </div>
+                    <div class="values-block-text">
+                        <div class="value-entry">
+                            <span class="value-num-large">03</span>
+                            <div class="value-entry-body">
+                                <h4>Smarter, Not Harder</h4>
+                                <p>We use automation and AI to remove the repetitive work that slows businesses down, so your team can focus on what counts.</p>
+                            </div>
+                        </div>
+                        <div class="value-entry">
+                            <span class="value-num-large">04</span>
+                            <div class="value-entry-body">
+                                <h4>People First</h4>
+                                <p>Technology is the tool, but your growth is the goal. Every decision we make starts and ends with what's best for your business.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="value-row">
-                    <span class="value-num">03</span>
-                    <h4>Smarter, Not Harder</h4>
-                    <p>We use automation and AI to remove the repetitive work that slows businesses down — so your team can focus on what counts.</p>
-                </div>
-                <div class="value-row">
-                    <span class="value-num">04</span>
-                    <h4>People First</h4>
-                    <p>Technology is the tool — your growth is the goal. Every decision we make starts and ends with what's best for your business.</p>
-                </div>
+
             </div>
         </div>
     </section>
@@ -211,7 +238,7 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <img src="images/logo.png" alt="MediaSphere Solutions" class="footer-logo">
-                    <p>A connected growth suite for service businesses — marketing, automation, CRM, booking, and more. All handled.</p>
+                    <p>A connected growth suite for service businesses. Marketing, automation, CRM, booking, and more. All handled.</p>
                 </div>
 
                 <div class="footer-links">
