@@ -2049,8 +2049,8 @@ html::-webkit-scrollbar {
 
 .logo-slider-wrap {
     overflow: hidden;
-    mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+    mask-image: linear-gradient(to right, rgba(0,0,0,0.375) 0%, black 20%, black 80%, rgba(0,0,0,0.375) 100%);
+    -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0.375) 0%, black 20%, black 80%, rgba(0,0,0,0.375) 100%);
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -2083,15 +2083,17 @@ html::-webkit-scrollbar {
     background: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, z-index 0s;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease, z-index 0s;
     position: relative;
     z-index: 0;
+    opacity: 0.375;
 }
 
 .logo-item:hover {
     transform: translateY(-3px);
     box-shadow: 0 0 20px rgba(99, 102, 241, 0.25), 0 4px 16px rgba(0, 0, 0, 0.4);
     z-index: 10;
+    opacity: 1;
 }
 
 .logo-item img {
@@ -2135,7 +2137,8 @@ html::-webkit-scrollbar {
     display: flex;
     flex-direction: column;
     flex: 1;
-    justify-content: space-between;
+    justify-content: flex-end;
+    gap: 12px;
 }
 
 .contact-item {
