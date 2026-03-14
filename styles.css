@@ -3214,6 +3214,10 @@ a.contact-item:hover {
         transform: rotateY(-8deg) rotateX(3deg) scale(0.85);
     }
 
+    .flip-sticky {
+        display: none;
+    }
+
     .flip-card-wrap {
         width: 650px;
         height: 450px;
