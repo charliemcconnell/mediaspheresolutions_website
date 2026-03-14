@@ -2854,6 +2854,11 @@ a.contact-item:hover {
 .hero-mobile-stat-val.violet { color: var(--accent-2); }
 .hero-mobile-stat-val.blue { color: #60a5fa; }
 
+/* Mobile services link — hidden by default */
+.mobile-services-link {
+    display: none;
+}
+
 /* Ecosystem flow strip */
 .ecosystem-flow {
     display: flex;
@@ -3283,6 +3288,19 @@ a.contact-item:hover {
 
     #how-it-works {
         padding-top: 64px;
+    }
+
+    .mobile-services-link {
+        display: block;
+        text-align: center;
+        margin-top: 32px;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+    }
+
+    .mobile-services-link a {
+        color: var(--accent-1);
+        text-decoration: underline;
     }
 
     .flip-card-wrap {
