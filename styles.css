@@ -3125,6 +3125,18 @@ a.contact-item:hover {
         height: 620px;
     }
 
+    .flip-sticky {
+        display: none;
+    }
+
+    .hero {
+        height: auto;
+    }
+
+    .hero .scroll-cue {
+        display: none;
+    }
+
     .flip-card-wrap {
         width: 900px;
         height: 600px;
