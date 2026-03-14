@@ -5,11 +5,16 @@
 document.addEventListener('DOMContentLoaded', () => {
     initNavbar();
     initMobileMenu();
+    initNavIndicator();
     initScrollReveal();
     initStepsLine();
     initCountUp();
     initSmoothScroll();
     initAppPreview();
+    initScrollFlip();
+    initOrbitAnimation();
+    initScrollIndicator();
+    initLogoSliders();
 });
 
 /* --- Navbar scroll effect --- */
@@ -56,6 +61,94 @@ function initMobileMenu() {
     });
 }
 
+/* --- Nav indicator (liquid glass sliding pill) --- */
+function initNavIndicator() {
+    var menu = document.getElementById('nav-menu');
+    var indicator = document.getElementById('nav-indicator');
+    if (!menu || !indicator) return;
+
+    var links = Array.from(menu.querySelectorAll('.nav-link[data-page]'));
+    if (!links.length) return;
+
+    // Determine which page is active based on the current filename
+    var path = window.location.pathname;
+    var file = path.substring(path.lastIndexOf('/') + 1) || 'index.html';
+    var activePage = null;
+
+    if (file === 'index.html' || file === '' || file === '/') {
+        activePage = 'home';
+    } else if (file === 'services.html') {
+        activePage = 'services';
+    } else if (file === 'about.html') {
+        activePage = 'about';
+    }
+
+    var activeLink = null;
+    links.forEach(function(link) {
+        if (link.dataset.page === activePage) {
+            link.classList.add('active');
+            activeLink = link;
+        }
+    });
+
+    function moveIndicator(target, instant) {
+        if (!target) return;
+        var menuRect = menu.getBoundingClientRect();
+        var linkRect = target.getBoundingClientRect();
+
+        var left = linkRect.left - menuRect.left;
+        var width = linkRect.width;
+
+        if (instant) {
+            indicator.style.transition = 'none';
+        }
+
+        indicator.style.left = left + 'px';
+        indicator.style.width = width + 'px';
+        indicator.classList.add('visible');
+
+        if (instant) {
+            // Force reflow then re-enable transition
+            indicator.offsetHeight;
+            indicator.style.transition = '';
+        }
+    }
+
+    // Position immediately (no animation) on load
+    if (activeLink) {
+        requestAnimationFrame(function() {
+            moveIndicator(activeLink, true);
+        });
+    }
+
+    // Hover: slide indicator to hovered link
+    links.forEach(function(link) {
+        link.addEventListener('mouseenter', function() {
+            moveIndicator(link, false);
+        });
+    });
+
+    // Mouse leave menu: slide back to active link
+    menu.addEventListener('mouseleave', function() {
+        if (activeLink) {
+            moveIndicator(activeLink, false);
+        } else {
+            indicator.classList.remove('visible');
+        }
+    });
+
+    // Reposition on resize and scroll (navbar changes shape when scrolled)
+    var repositionTimer;
+    function reposition() {
+        clearTimeout(repositionTimer);
+        repositionTimer = setTimeout(function() {
+            if (activeLink) moveIndicator(activeLink, true);
+        }, 50);
+    }
+    window.addEventListener('resize', reposition, { passive: true });
+    window.addEventListener('scroll', reposition, { passive: true });
+}
+
 /* --- Scroll Reveal with Intersection Observer --- */
 function initScrollReveal() {
     const elements = document.querySelectorAll('.reveal');
@@ -88,19 +181,11 @@ function initStepsLine() {
     function updateLine() {
         const rect = container.getBoundingClientRect();
         const windowHeight = window.innerHeight;
-        const containerTop = rect.top;
-        const containerHeight = rect.height;
 
-        // Calculate how far through the container we've scrolled
-        const start = containerTop - windowHeight * 0.7;
-        const end = containerTop + containerHeight - windowHeight * 0.3;
-        const current = -start;
-        const total = end - containerTop + windowHeight * 0.7;
+        // Line tip tracks the viewport center through the container
+        const progress = (windowHeight * 0.5 - rect.top) / rect.height;
 
-        let progress = current / total;
-        progress = Math.max(0, Math.min(1, progress));
-
-        lineFill.style.height = (progress * 100) + '%';
+        lineFill.style.height = (Math.max(0, Math.min(1, progress)) * 100) + '%';
     }
 
     window.addEventListener('scroll', updateLine, { passive: true });
@@ -173,9 +258,6 @@ function initSmoothScroll() {
 
 /* --- 3D App Preview Animations --- */
 function initAppPreview() {
-    const tiltFrame = document.getElementById('tiltFrame');
-    if (!tiltFrame) return;
-
     // Ticker animation
     (function() {
         const track = document.querySelector('.ticker-track');
@@ -193,29 +275,6 @@ function initAppPreview() {
             requestAnimationFrame(animateTicker);
         }
         animateTicker();
-    })();
-
-    // Mouse tilt parallax — only when hovering the preview
-    (function() {
-        const frame = document.getElementById('tiltFrame');
-        const preview = document.querySelector('.hero-app-preview');
-        if (!frame || !preview) return;
-        const baseY = -14, baseX = 4;
-        const strength = 5;
-
-        preview.addEventListener('mousemove', (e) => {
-            const rect = preview.getBoundingClientRect();
-            const dx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-            const dy = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-            const rotY = baseY + dx * strength;
-            const rotX = baseX - dy * strength;
-            frame.style.transform = 'rotateY(' + rotY + 'deg) rotateX(' + rotX + 'deg) scale(1)';
-        });
-        preview.addEventListener('mouseleave', () => {
-            frame.style.transition = 'transform 0.5s ease';
-            frame.style.transform = 'rotateY(' + baseY + 'deg) rotateX(' + baseX + 'deg) scale(1)';
-            setTimeout(() => { frame.style.transition = ''; }, 500);
-        });
     })();
 
     // Revenue counter pulse
@@ -317,4 +376,460 @@ function initAppPreview() {
         setInterval(advanceCard, 4500);
         setTimeout(() => { showNotif(); popBubble(); }, 2000);
     })();
+}
+
+/* --- Scroll Flip Animation --- */
+function initScrollFlip() {
+    var section  = document.getElementById('home');
+    var cardWrap = document.getElementById('flipCardWrap');
+    var card     = document.getElementById('flipCard');
+    var sticky   = document.getElementById('flipSticky');
+    var backInner = document.getElementById('backInner');
+    var backFace  = card ? card.querySelector('.flip-back') : null;
+    var backVisualCol = card ? card.querySelector('.back-visual-col') : null;
+    var orbitSidebar = document.getElementById('orbitSidebar');
+    var sysBlocksWrap = backInner ? backInner.querySelector('.back-system-blocks') : null;
+    var flipTrail = document.getElementById('flipTrail');
+
+    if (!section || !cardWrap || !card || !sticky) return;
+
+    var BASE_TILT_Y = -14;
+    var BASE_TILT_X = 4;
+    var BASE_W = cardWrap.offsetWidth;
+    var BASE_H = cardWrap.offsetHeight;
+
+    var lastProgress = -1;
+    var backVisible  = false;
+    var mouseRotY = BASE_TILT_Y;
+    var mouseRotX = BASE_TILT_X;
+    var backCenterPad = -1; // computed once when first needed
+
+    // Use offsetTop (layout-flow position) instead of getBoundingClientRect()
+    // so the offset is correct even when the sticky element is "stuck" after
+    // a mid-page refresh.
+    var stickyLockOffset = sticky.offsetTop - section.offsetTop;
+
+    // REVEAL_END: fraction of total progress used for the initial scale-in reveal
+    var REVEAL_END = 0.03;
+    // ANIM_END: fraction of total progress used for the flip+expand animation
+    // The remaining (1 - ANIM_END) is used to scroll system content through the card
+    var ANIM_END = 0.40;
+    var REVEAL_END_LOCAL = REVEAL_END / ANIM_END;
+
+    var TOTAL_SYSTEM_HEIGHT = 0;
+    var sysHeightComputed = false;
+    var sysBlocksEl = null;
+
+    // Recalculate layout-dependent values on resize
+    window.addEventListener('resize', function() {
+        stickyLockOffset = sticky.offsetTop - section.offsetTop;
+        BASE_W = cardWrap.offsetWidth;
+        BASE_H = cardWrap.offsetHeight;
+        sysHeightComputed = false;
+        backCenterPad = -1;
+    }, { passive: true });
+
+    function ease3(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
+    function easeOut3(t) { return 1 - Math.pow(1 - t, 3); }
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    sticky.addEventListener('mousemove', function(e) {
+        if (lastProgress > REVEAL_END + 0.05) return;
+        var r  = sticky.getBoundingClientRect();
+        var dx = ((e.clientX - r.left) / r.width  - 0.5) * 2;
+        var dy = ((e.clientY - r.top)  / r.height - 0.5) * 2;
+        mouseRotY = BASE_TILT_Y + dx * 5;
+        mouseRotX = BASE_TILT_X - dy * 5;
+    });
+    sticky.addEventListener('mouseleave', function() {
+        mouseRotY = BASE_TILT_Y;
+        mouseRotX = BASE_TILT_X;
+    });
+
+    function onScroll() {
+        var rect     = section.getBoundingClientRect();
+        var sectionH = section.offsetHeight;
+        var viewH    = window.innerHeight;
+        var viewW    = window.innerWidth;
+
+        var scrolled     = -rect.top;
+        var travel       = sectionH - viewH;
+        var animScrolled = Math.max(0, scrolled - stickyLockOffset);
+        var animTravel   = Math.max(1, travel - stickyLockOffset);
+
+        // Expose flip state for the scroll indicator
+        if (!window._msFlip) window._msFlip = {};
+        if (!window._msFlip.backScrollY && travel > 0) {
+            window._msFlip.backScrollY = section.offsetTop + stickyLockOffset + ANIM_END * animTravel;
+        }
+        var progress     = Math.max(0, Math.min(1, animScrolled / animTravel));
+
+        if (Math.abs(progress - lastProgress) < 0.0003) return;
+        lastProgress = progress;
+
+        // Phase 1 (0 → ANIM_END): flip card animates and expands
+        var animProgress = Math.min(1, progress / ANIM_END);
+        // Phase 2 (ANIM_END → 1): system content scrolls upward through the card
+        var contentProgress = Math.max(0, (progress - ANIM_END) / (1 - ANIM_END));
+
+        var revealT     = Math.min(1, animProgress / REVEAL_END_LOCAL);
+        var revealEased = ease3(revealT);
+
+        var flipProgress = animProgress < REVEAL_END_LOCAL
+            ? 0
+            : Math.min(1, (animProgress - REVEAL_END_LOCAL) / (1 - REVEAL_END_LOCAL));
+
+        var rotY, rotX, scaleVal, perspective;
+
+        if (flipProgress === 0) {
+            rotY        = lerp(0, BASE_TILT_Y, revealEased);
+            rotX        = lerp(0, BASE_TILT_X, revealEased);
+            scaleVal    = lerp(0.96, 1, revealEased);
+            perspective = lerp(20000, 2000, revealEased);
+        } else {
+            var flipT     = Math.min(1, flipProgress / 0.55);
+            var flipEased = easeOut3(flipT);
+            rotY        = lerp(BASE_TILT_Y, -180, flipEased);
+            rotX        = lerp(BASE_TILT_X, 0, flipEased) + Math.sin(flipEased * Math.PI) * -5;
+            scaleVal    = 1 + Math.sin(flipEased * Math.PI) * 0.05;
+            perspective = 2000;
+        }
+
+        var expandT     = Math.max(0, Math.min(1, (flipProgress - 0.30) / 0.70));
+        var expandEased = ease3(expandT);
+
+        var currentCardH = lerp(BASE_H, viewH - 130, expandEased);
+        cardWrap.style.width    = lerp(BASE_W, viewW, expandEased) + 'px';
+        cardWrap.style.height   = currentCardH + 'px';
+        card.style.borderRadius = lerp(14, 0, expandEased) + 'px';
+        cardWrap.classList.toggle('fullscreen', expandEased > 0.55);
+
+        if (expandEased > 0.6) {
+            perspective = lerp(2000, 0, (expandEased - 0.6) / 0.4);
+        }
+        cardWrap.style.perspective = perspective > 0 ? perspective + 'px' : 'none';
+        card.style.transform = 'rotateY(' + rotY + 'deg) rotateX(' + rotX + 'deg) scale(' + scaleVal + ')';
+
+        // Smoothly drive back face padding-top (avoids justify-content snap)
+        if (backFace && backInner) {
+            if (backCenterPad < 0) {
+                var innerH = backInner.offsetHeight || 380;
+                backCenterPad = Math.max(40, (BASE_H - innerH) / 2);
+            }
+            var sidePad = lerp(50, 80, expandEased);
+            backFace.style.paddingTop    = lerp(backCenterPad, 0, expandEased).toFixed(1) + 'px';
+            backFace.style.paddingLeft   = sidePad.toFixed(1) + 'px';
+            backFace.style.paddingRight  = sidePad.toFixed(1) + 'px';
+        }
+
+
+        // Fade out light trail as flip begins
+        if (flipTrail) {
+            var trailOpacity = flipProgress < 0.05 ? 1 : Math.max(0, 1 - (flipProgress - 0.05) / 0.25);
+            flipTrail.style.opacity = trailOpacity;
+        }
+
+        var isBackNow = rotY < -90;
+        if (isBackNow !== backVisible) {
+            backVisible = isBackNow;
+            card.classList.toggle('back-visible', backVisible);
+            sticky.classList.toggle('flipped', backVisible);
+        }
+        if (window._msFlip) window._msFlip.backVisible = backVisible;
+
+        // Fade in system blocks as flip nears completion
+        if (sysBlocksWrap) {
+            sysBlocksWrap.style.opacity = expandEased > 0.75 ? '1' : '0';
+        }
+
+        // Phase 2: scroll system content upward through the fullscreen back face
+        if (backInner) {
+            if (!sysHeightComputed && expandEased > 0.98) {
+                TOTAL_SYSTEM_HEIGHT = Math.max(0, backInner.scrollHeight - (viewH - 130));
+                sysHeightComputed = true;
+                if (!sysBlocksEl) sysBlocksEl = backInner.querySelector('.back-system-blocks');
+            }
+            if (TOTAL_SYSTEM_HEIGHT > 0) {
+                var contentOffset = contentProgress * TOTAL_SYSTEM_HEIGHT;
+                backInner.style.transform = contentOffset > 0
+                    ? 'translateY(-' + contentOffset.toFixed(1) + 'px)'
+                    : '';
+
+                // Sticky orbit: counter-translate so it stays fixed in the
+                // card viewport while blocks scroll past.
+                if (orbitSidebar && sysBlocksEl) {
+                    var sysTop   = sysBlocksEl.offsetTop;
+                    var targetY  = 150; // stick 150px from top of card
+                    var counter  = Math.max(0, contentOffset - (sysTop - targetY));
+                    var MAX_ORBIT_TRAVEL = 1850; // hard cap in px — tune this value
+                    counter = Math.min(counter, MAX_ORBIT_TRAVEL);
+
+                    orbitSidebar.style.transform = counter > 0
+                        ? 'translateY(' + counter.toFixed(1) + 'px)'
+                        : '';
+                }
+            }
+        }
+
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+}
+
+/* --- Orbiting Skills Animation --- */
+function initOrbitAnimation() {
+    var scene = document.getElementById('orbitScene');
+    if (!scene) return;
+
+    var nodes = Array.from(scene.querySelectorAll('.orbit-node'));
+    var timeOffset = 0;
+    var pauseStart = null;
+
+    scene.addEventListener('mouseenter', function() {
+        pauseStart = performance.now();
+    });
+    scene.addEventListener('mouseleave', function() {
+        if (pauseStart !== null) {
+            timeOffset += performance.now() - pauseStart;
+            pauseStart = null;
+        }
+    });
+
+    function tick(ts) {
+        var elapsed = pauseStart !== null
+            ? (pauseStart - timeOffset) / 1000
+            : (ts - timeOffset) / 1000;
+
+        nodes.forEach(function(node) {
+            var radius = parseFloat(node.dataset.radius);
+            var phase  = parseFloat(node.dataset.phase);
+            var speed  = parseFloat(node.dataset.speed);
+            var angle  = elapsed * speed + phase;
+            var x = Math.cos(angle) * radius;
+            var y = Math.sin(angle) * radius;
+            node.style.transform = 'translate(' + x.toFixed(2) + 'px, ' + y.toFixed(2) + 'px)';
+        });
+
+        requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+}
+
+/* --- Custom Scroll Indicator --- */
+function initScrollIndicator() {
+    var indicator = document.getElementById('scrollIndicator');
+    var fill      = document.getElementById('siFill');
+    var thumb     = document.getElementById('siThumb');
+    if (!indicator || !fill || !thumb) return;
+
+    var dots     = Array.from(indicator.querySelectorAll('.si-dot'));
+    var sections = dots.map(function(dot) {
+        return dot.dataset.target ? document.getElementById(dot.dataset.target) : null;
+    });
+
+    // Identify the special flip dot (no data-target, has data-flip-dot)
+    var flipDotIndex = dots.findIndex(function(dot) { return dot.dataset.flipDot === 'true'; });
+
+    // Position each dot at its section's proportional scroll position along the track
+    function positionDots() {
+        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (docHeight <= 0) return;
+        dots.forEach(function(dot, i) {
+            if (i === flipDotIndex) {
+                // Position at the flip completion scroll position
+                var flipScrollY = window._msFlip && window._msFlip.backScrollY;
+                if (flipScrollY != null) {
+                    dot.style.top = Math.min(100, (flipScrollY / docHeight) * 100).toFixed(2) + '%';
+                }
+                return;
+            }
+            var section = sections[i];
+            if (!section) return;
+            var pct = Math.min(100, (section.offsetTop / docHeight) * 100);
+            dot.style.top = pct + '%';
+        });
+    }
+
+    // Fade in the moment scrolling begins
+    var revealed = false;
+    function reveal() {
+        if (!revealed && window.scrollY > 1) {
+            indicator.classList.add('visible');
+            revealed = true;
+        }
+    }
+
+    function update() {
+        reveal();
+
+        var scrollTop = window.scrollY;
+        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        var progress  = docHeight > 0 ? Math.min(1, scrollTop / docHeight) : 0;
+
+        // Update track fill + thumb
+        var pct = (progress * 100).toFixed(2);
+        fill.style.height = pct + '%';
+        thumb.style.top   = pct + '%';
+
+        // Glow intensity scales with progress
+        var glow = 0.5 + progress * 0.5;
+        thumb.style.boxShadow =
+            '0 0 0 3px rgba(99,102,241,' + (glow * 0.25).toFixed(2) + '),' +
+            '0 0 ' + Math.round(10 + progress * 10) + 'px rgba(99,102,241,' + glow.toFixed(2) + '),' +
+            '0 0 ' + Math.round(20 + progress * 20) + 'px rgba(139,92,246,' + (glow * 0.5).toFixed(2) + ')';
+
+        // Activate the dot whose section is currently in view
+        // The flip dot activates when the card back face is visible
+        var flipActive = flipDotIndex >= 0 && window._msFlip && window._msFlip.backVisible;
+        var viewMid = scrollTop + window.innerHeight * 0.4;
+        var active  = 0;
+        sections.forEach(function(section, i) {
+            if (i === flipDotIndex) return; // handled separately
+            if (section && section.offsetTop <= viewMid) { active = i; }
+        });
+        // Reposition flip dot every frame in case backScrollY wasn't ready at init
+        if (flipDotIndex >= 0) {
+            var docH2 = document.documentElement.scrollHeight - window.innerHeight;
+            var flipScrollY = window._msFlip && window._msFlip.backScrollY;
+            if (flipScrollY != null && docH2 > 0) {
+                dots[flipDotIndex].style.top = Math.min(100, (flipScrollY / docH2) * 100).toFixed(2) + '%';
+            }
+        }
+        dots.forEach(function(dot, i) {
+            if (i === flipDotIndex) {
+                dot.classList.toggle('active', !!flipActive);
+            } else {
+                dot.classList.toggle('active', !flipActive && i === active);
+            }
+        });
+    }
+
+    // Dot click → smooth scroll to section (or flip position for the flip dot)
+    dots.forEach(function(dot, i) {
+        dot.addEventListener('click', function() {
+            if (i === flipDotIndex) {
+                var flipScrollY = window._msFlip && window._msFlip.backScrollY;
+                if (flipScrollY != null) {
+                    window.scrollTo({ top: flipScrollY, behavior: 'smooth' });
+                }
+                return;
+            }
+            var target = document.getElementById(dot.dataset.target);
+            if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        });
+    });
+
+    // --- Drag / click-to-scroll on the track ---
+    var track = indicator.querySelector('.si-track');
+    var isDragging = false;
+
+    function scrollToTrackY(clientY) {
+        var rect = track.getBoundingClientRect();
+        var ratio = Math.max(0, Math.min(1, (clientY - rect.top) / rect.height));
+        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        window.scrollTo({ top: ratio * docHeight, behavior: 'instant' });
+    }
+
+    // Thumb: grab to drag
+    thumb.style.cursor = 'grab';
+    thumb.addEventListener('mousedown', function(e) {
+        e.preventDefault();
+        isDragging = true;
+        thumb.style.cursor = 'grabbing';
+        document.body.style.userSelect = 'none';
+        indicator.classList.add('visible');
+        revealed = true;
+    });
+
+    // Track: click anywhere to jump
+    track.addEventListener('mousedown', function(e) {
+        if (e.target === thumb) return; // handled above
+        e.preventDefault();
+        isDragging = true;
+        document.body.style.userSelect = 'none';
+        scrollToTrackY(e.clientY);
+        indicator.classList.add('visible');
+        revealed = true;
+    });
+
+    document.addEventListener('mousemove', function(e) {
+        if (!isDragging) return;
+        scrollToTrackY(e.clientY);
+    });
+
+    document.addEventListener('mouseup', function() {
+        if (!isDragging) return;
+        isDragging = false;
+        thumb.style.cursor = 'grab';
+        document.body.style.userSelect = '';
+    });
+
+    // Touch support
+    thumb.addEventListener('touchstart', function(e) {
+        isDragging = true;
+        indicator.classList.add('visible');
+        revealed = true;
+    }, { passive: true });
+
+    document.addEventListener('touchmove', function(e) {
+        if (!isDragging) return;
+        scrollToTrackY(e.touches[0].clientY);
+    }, { passive: true });
+
+    document.addEventListener('touchend', function() {
+        isDragging = false;
+    });
+
+    // Re-position dots if window resizes (layout shifts)
+    window.addEventListener('resize', positionDots, { passive: true });
+    window.addEventListener('scroll', update, { passive: true });
+
+    // Wait one frame so layout is fully settled before measuring
+    requestAnimationFrame(function() {
+        positionDots();
+        update();
+    });
+}
+
+/* --- Logo slider: fill viewport & animate both rows --- */
+function initLogoSliders() {
+    var rows = document.querySelectorAll('.logo-row');
+    rows.forEach(function(row, i) {
+        var track = row.querySelector('.logo-track');
+        if (!track) return;
+
+        // Measure one set of original items
+        var origItems = Array.from(track.children);
+        var setWidth = track.scrollWidth;
+        // scrollWidth = N*itemWidth + (N-1)*gap — need one extra gap for a seamless loop period
+        var gap = parseFloat(getComputedStyle(track).gap) || parseFloat(getComputedStyle(track).columnGap) || 0;
+        var loopWidth = setWidth + gap; // true period: N*(itemWidth + gap)
+
+        // Clone items until track is at least 3× the viewport wide
+        while (track.scrollWidth < window.innerWidth * 3) {
+            origItems.forEach(function(item) {
+                var clone = item.cloneNode(true);
+                clone.setAttribute('aria-hidden', 'true');
+                track.appendChild(clone);
+            });
+        }
+
+        // Inject a pixel-precise keyframe for this row
+        var name = 'logoRow' + i;
+        var style = document.createElement('style');
+        var duration = 18; // seconds per one set width
+
+        if (i % 2 === 0) {
+            // Left scroll: 0 → -loopWidth
+            style.textContent = '@keyframes ' + name + '{0%{transform:translateX(0)}100%{transform:translateX(-' + loopWidth + 'px)}}';
+        } else {
+            // Right scroll: -loopWidth → 0 (fill-mode:both ensures 0% applies before first frame)
+            style.textContent = '@keyframes ' + name + '{0%{transform:translateX(-' + loopWidth + 'px)}100%{transform:translateX(0)}}';
+        }
+
+        document.head.appendChild(style);
+        track.style.animation = name + ' ' + duration + 's linear infinite both';
+    });
 }
