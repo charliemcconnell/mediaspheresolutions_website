@@ -3091,6 +3091,22 @@ a.contact-item:hover {
 /* ============================================
    RESPONSIVE
    ============================================ */
+
+/* Hide flip dashboard on touch devices (phones & tablets) */
+@media (hover: none) and (pointer: coarse) {
+    .flip-sticky {
+        display: none;
+    }
+
+    .hero {
+        height: auto;
+    }
+
+    .hero .scroll-cue {
+        display: none;
+    }
+}
+
 @media (max-width: 1024px) {
     :root {
         --section-padding: 80px;
@@ -3123,18 +3139,6 @@ a.contact-item:hover {
 
     .app {
         height: 620px;
-    }
-
-    .flip-sticky {
-        display: none;
-    }
-
-    .hero {
-        height: auto;
-    }
-
-    .hero .scroll-cue {
-        display: none;
     }
 
     .flip-card-wrap {
