@@ -2846,6 +2846,14 @@ a.contact-item:hover {
     font-weight: 600;
 }
 
+/* Hero mobile stats — hidden by default, shown on mobile only */
+.hero-mobile-stats {
+    display: none;
+}
+.hero-mobile-stat-val.green { color: #20d4a0; }
+.hero-mobile-stat-val.violet { color: var(--accent-2); }
+.hero-mobile-stat-val.blue { color: #60a5fa; }
+
 /* Ecosystem flow strip */
 .ecosystem-flow {
     display: flex;
@@ -3216,6 +3224,50 @@ a.contact-item:hover {
 
     .flip-sticky {
         display: none;
+    }
+
+    .hero-mobile-stats {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        margin-bottom: 28px;
+    }
+
+    .hero-mobile-stat {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .hero-mobile-stat-val {
+        font-size: 1.5rem;
+        font-weight: 800;
+        line-height: 1;
+    }
+
+    .hero-mobile-stat-label {
+        font-size: 0.65rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-weight: 600;
+    }
+
+    .hero {
+        height: auto;
+    }
+
+    .hero .scroll-cue {
+        display: none;
+    }
+
+    .hero-buttons .btn-ghost {
+        display: none;
+    }
+
+    #how-it-works {
+        padding-top: 32px;
     }
 
     .flip-card-wrap {
