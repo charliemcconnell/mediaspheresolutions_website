@@ -404,7 +404,10 @@ function initScrollFlip() {
     var mouseRotX = BASE_TILT_X;
     var backCenterPad = -1; // computed once when first needed
 
-    var stickyLockOffset = sticky.getBoundingClientRect().top - section.getBoundingClientRect().top;
+    // Use offsetTop (layout-flow position) instead of getBoundingClientRect()
+    // so the offset is correct even when the sticky element is "stuck" after
+    // a mid-page refresh.
+    var stickyLockOffset = sticky.offsetTop - section.offsetTop;
 
     // REVEAL_END: fraction of total progress used for the initial scale-in reveal
     var REVEAL_END = 0.03;
@@ -416,6 +419,15 @@ function initScrollFlip() {
     var TOTAL_SYSTEM_HEIGHT = 0;
     var sysHeightComputed = false;
     var sysBlocksEl = null;
+
+    // Recalculate layout-dependent values on resize
+    window.addEventListener('resize', function() {
+        stickyLockOffset = sticky.offsetTop - section.offsetTop;
+        BASE_W = cardWrap.offsetWidth;
+        BASE_H = cardWrap.offsetHeight;
+        sysHeightComputed = false;
+        backCenterPad = -1;
+    }, { passive: true });
 
     function ease3(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
     function easeOut3(t) { return 1 - Math.pow(1 - t, 3); }
