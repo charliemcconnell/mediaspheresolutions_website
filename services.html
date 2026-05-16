@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MediaSphere Solutions | Services & Growth Add-Ons</title>
-    <meta name="description" content="Everything your business needs to grow online. Core services and powerful growth add-ons from MediaSphere Solutions.">
+    <title>MediaSphere Solutions | Services</title>
+    <meta name="description" content="Lead generation, voice agents, CRM, websites, automations, and SEO. Built end to end for service businesses across Ireland.">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -21,6 +21,9 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+    <!-- Cosmos backdrop — fixed canvas behind everything -->
+    <canvas id="cosmosCanvas" class="cosmos-canvas" aria-hidden="true"></canvas>
 
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
@@ -50,243 +53,139 @@
         </div>
     </nav>
 
-    <!-- Services Hero -->
+    <!-- Hero — full-screen statement -->
     <section class="svc-hero" id="services">
-        <div class="container">
-            <div class="svc-hero-content reveal">
-                <span class="section-tag">What We Do</span>
-                <h1 class="svc-hero-title">From First Click to<br><span class="gradient-text">Repeat Customer</span></h1>
-                <p class="svc-hero-sub">We build the entire system: the ads that bring people in, the tools that convert them, and the automations that keep them coming back. Here's every piece of that puzzle.</p>
+        <div class="svc-hero-content">
+            <h1 class="svc-hero-title">
+                From first click <span class="svc-hero-italic">to repeat customer.</span>
+            </h1>
+
+            <!-- Aceternity-style sparkles stage: layered horizon lines + particle field that fades into a radial mask -->
+            <div class="svc-hero-stage" aria-hidden="true">
+                <span class="svc-hero-line svc-hero-line--wide-blur"></span>
+                <span class="svc-hero-line svc-hero-line--wide-thin"></span>
+                <span class="svc-hero-line svc-hero-line--narrow-blur"></span>
+                <span class="svc-hero-line svc-hero-line--narrow-thin"></span>
+                <canvas
+                    class="svc-hero-sparkles"
+                    data-sparkles
+                    data-color="#ffffff"
+                    data-density="500"
+                    data-min-size="0.4"
+                    data-max-size="1"
+                    data-speed="3"
+                ></canvas>
             </div>
         </div>
     </section>
 
-    <!-- Service Feature Rows -->
-    <section class="svc-features">
+    <!-- Services bento -->
+    <section class="svc-bento-wrap">
+        <p class="svc-bento-intro">Three core systems do the heavy lifting. Everything else holds it together.</p>
 
-        <!-- 01 — Get Found -->
-        <div class="svc-row svc-row--dark">
-            <div class="container">
-                <div class="svc-split reveal">
-                    <div class="svc-split__visual">
-                        <div class="svc-num">01</div>
-                        <div class="svc-icon-lg svc-icon-lg--indigo">
-                            <i class="fas fa-bullseye"></i>
-                        </div>
-                    </div>
-                    <div class="svc-split__content">
-                        <h2>Get Found</h2>
-                        <p>Your customers are searching right now. Google Ads, Meta Ads, and SEO put your business exactly where they're looking, so the phone rings before your competitor's does.</p>
-                        <p class="svc-detail">We handle keyword research, ad creative, bid management, and on-page SEO. You get more visibility without learning a single dashboard.</p>
-                        <div class="svc-pills">
-                            <span>Google Ads</span>
-                            <span>Meta Ads</span>
-                            <span>SEO</span>
-                            <span>Keyword Research</span>
-                        </div>
-                    </div>
+        <!-- Three hero services -->
+        <div class="svc-hero-row">
+            <article
+                class="svc-tile svc-tile--image svc-tile--hero"
+                id="lead-gen"
+                style="background-image: url('images/consulting.jpg');"
+            >
+                <div class="svc-tile-shade" aria-hidden="true"></div>
+                <div class="svc-tile-content">
+                    <span class="svc-hero-num">01</span>
+                    <h2 class="svc-tile-title">Lead Generation &amp; <span class="svc-italic">Qualification.</span></h2>
+                    <p class="svc-tile-desc">Paid ads built to find people ready to spend, qualified before they hit your inbox.</p>
                 </div>
-            </div>
+            </article>
+
+            <article
+                class="svc-tile svc-tile--image svc-tile--hero"
+                id="voice-agent"
+                style="background-image: url('images/missed-call.jpg');"
+            >
+                <div class="svc-tile-shade" aria-hidden="true"></div>
+                <div class="svc-tile-content">
+                    <span class="svc-hero-num">02</span>
+                    <h2 class="svc-tile-title">Never miss a <span class="svc-italic">paying call.</span></h2>
+                    <p class="svc-tile-desc">A trained voice agent picks up when you can't. Qualifies, books, hands it over.</p>
+                </div>
+            </article>
+
+            <article
+                class="svc-tile svc-tile--image svc-tile--hero"
+                id="crm"
+                style="background-image: url('images/crm-pipelines.jpg');"
+            >
+                <div class="svc-tile-shade" aria-hidden="true"></div>
+                <div class="svc-tile-content">
+                    <span class="svc-hero-num">03</span>
+                    <h2 class="svc-tile-title">A CRM that <span class="svc-italic">runs itself.</span></h2>
+                    <p class="svc-tile-desc">Custom pipelines and automated follow-ups, tracking every lead from first touch to repeat job.</p>
+                </div>
+            </article>
         </div>
 
-        <!-- 02 — Get Booked -->
-        <div class="svc-row">
-            <div class="container">
-                <div class="svc-split svc-split--reverse reveal">
-                    <div class="svc-split__visual">
-                        <div class="svc-num">02</div>
-                        <div class="svc-icon-lg svc-icon-lg--purple">
-                            <i class="fas fa-calendar-check"></i>
-                        </div>
-                    </div>
-                    <div class="svc-split__content">
-                        <h2>Get Booked</h2>
-                        <p>No more back-and-forth texts trying to find a time. Customers pick a slot, confirm instantly, and it lands straight in your calendar.</p>
-                        <p class="svc-detail">The booking system syncs with Google Calendar, sends automatic reminders, and cuts no-shows. You just show up.</p>
-                        <div class="svc-pills">
-                            <span>Online Booking</span>
-                            <span>Calendar Sync</span>
-                            <span>Auto-Confirm</span>
-                            <span>Reminders</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- Everything else -->
+        <div class="svc-also">
+            <h3 class="svc-also-heading">What else is <span class="svc-italic">included</span></h3>
+            <ul class="svc-chips">
+                <li class="svc-chip" id="website">
+                    <span class="svc-chip-title">Website + Chatbot</span>
+                    <span class="svc-chip-meta">A fast site that captures leads at 2am.</span>
+                </li>
+                <li class="svc-chip" id="automations">
+                    <span class="svc-chip-title">Automations</span>
+                    <span class="svc-chip-meta">The repetitive bits, handled.</span>
+                </li>
+                <li class="svc-chip svc-chip--accent" id="seo">
+                    <span class="svc-chip-title">SEO + GEO</span>
+                    <span class="svc-chip-meta">Rank on Google and AI search.</span>
+                </li>
+                <li class="svc-chip">
+                    <span class="svc-chip-title">Landing Pages</span>
+                    <span class="svc-chip-meta">Convert more of your traffic.</span>
+                </li>
+                <li class="svc-chip">
+                    <span class="svc-chip-title">Email &amp; SMS Follow-Ups</span>
+                    <span class="svc-chip-meta">Stay top of mind, on autopilot.</span>
+                </li>
+                <li class="svc-chip">
+                    <span class="svc-chip-title">Social Media Management</span>
+                    <span class="svc-chip-meta">Show up consistently, without the lift.</span>
+                </li>
+                <li class="svc-chip">
+                    <span class="svc-chip-title">Before &amp; After Showcases</span>
+                    <span class="svc-chip-meta">Show off the work that wins jobs.</span>
+                </li>
+                <li class="svc-chip" id="add-ons">
+                    <span class="svc-chip-title">Reporting Dashboard</span>
+                    <span class="svc-chip-meta">See what's working, at a glance.</span>
+                </li>
+            </ul>
         </div>
-
-        <!-- 03 — Get Reviews -->
-        <div class="svc-row svc-row--dark">
-            <div class="container">
-                <div class="svc-split reveal">
-                    <div class="svc-split__visual">
-                        <div class="svc-num">03</div>
-                        <div class="svc-icon-lg svc-icon-lg--cyan">
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                    <div class="svc-split__content">
-                        <h2>Get Reviews</h2>
-                        <p>Great work deserves great reviews. We automatically ask happy customers for feedback at the perfect moment, while the job's still fresh.</p>
-                        <p class="svc-detail">Monitor your reputation across Google, respond to reviews from one place, and let your 5-star track record do the selling for you.</p>
-                        <div class="svc-pills">
-                            <span>Review Requests</span>
-                            <span>Reputation Monitoring</span>
-                            <span>Response Management</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 04 — Stay Organised -->
-        <div class="svc-row">
-            <div class="container">
-                <div class="svc-split svc-split--reverse reveal">
-                    <div class="svc-split__visual">
-                        <div class="svc-num">04</div>
-                        <div class="svc-icon-lg svc-icon-lg--indigo">
-                            <i class="fas fa-address-book"></i>
-                        </div>
-                    </div>
-                    <div class="svc-split__content">
-                        <h2>Stay Organised</h2>
-                        <p>Every lead, every conversation, every job, all tracked in one place. No more spreadsheets, sticky notes, or "I'll remember that later."</p>
-                        <p class="svc-detail">Our CRM is built for service businesses, not enterprise sales teams. See your pipeline at a glance and never let a lead slip through the cracks.</p>
-                        <div class="svc-pills">
-                            <span>CRM</span>
-                            <span>Lead Tracking</span>
-                            <span>Pipeline View</span>
-                            <span>Contact History</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 05 — Never Miss a Call -->
-        <div class="svc-row svc-row--dark">
-            <div class="container">
-                <div class="svc-split reveal">
-                    <div class="svc-split__visual">
-                        <div class="svc-num">05</div>
-                        <div class="svc-icon-lg svc-icon-lg--purple">
-                            <i class="fas fa-phone-volume"></i>
-                        </div>
-                    </div>
-                    <div class="svc-split__content">
-                        <h2>Never Miss a Call</h2>
-                        <p>You're up a ladder. You're with a client. You're driving. The phone rings, you can't answer, and that lead is gone. Not anymore.</p>
-                        <p class="svc-detail">Our AI receptionist picks up when you can't. Missed call? An instant text-back keeps the conversation going until you're free. 24/7 coverage, zero staff overhead.</p>
-                        <div class="svc-pills">
-                            <span>AI Receptionist</span>
-                            <span>Missed Call Text-Back</span>
-                            <span>24/7 Coverage</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 06 — Work Smarter -->
-        <div class="svc-row">
-            <div class="container">
-                <div class="svc-split svc-split--reverse reveal">
-                    <div class="svc-split__visual">
-                        <div class="svc-num">06</div>
-                        <div class="svc-icon-lg svc-icon-lg--cyan">
-                            <i class="fas fa-wand-magic-sparkles"></i>
-                        </div>
-                    </div>
-                    <div class="svc-split__content">
-                        <h2>Work Smarter</h2>
-                        <p>Stop doing the same admin tasks over and over. We build custom automations that handle the repetitive stuff like follow-ups, reminders, and invoices.</p>
-                        <p class="svc-detail">Every workflow is tailored to how your business actually runs. Less busywork, more of the work that pays.</p>
-                        <div class="svc-pills">
-                            <span>Custom Automation</span>
-                            <span>Workflow Design</span>
-                            <span>Integrations</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 07 — Look the Part -->
-        <div class="svc-row svc-row--dark">
-            <div class="container">
-                <div class="svc-split reveal">
-                    <div class="svc-split__visual">
-                        <div class="svc-num">07</div>
-                        <div class="svc-icon-lg svc-icon-lg--indigo">
-                            <i class="fas fa-laptop-code"></i>
-                        </div>
-                    </div>
-                    <div class="svc-split__content">
-                        <h2>Look the Part</h2>
-                        <p>First impressions happen online. A sharp, fast, mobile-friendly website tells customers you're the real deal before you ever speak to them.</p>
-                        <p class="svc-detail">We design and build sites that actually convert. Not just pretty pages, but pages that turn visitors into paying customers.</p>
-                        <div class="svc-pills">
-                            <span>Website Design</span>
-                            <span>Mobile-First</span>
-                            <span>Conversion-Focused</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 08 — Own Your Area -->
-        <div class="svc-row">
-            <div class="container">
-                <div class="svc-split svc-split--reverse reveal">
-                    <div class="svc-split__visual">
-                        <div class="svc-num">08</div>
-                        <div class="svc-icon-lg svc-icon-lg--purple">
-                            <i class="fas fa-map-location-dot"></i>
-                        </div>
-                    </div>
-                    <div class="svc-split__content">
-                        <h2>Own Your Area</h2>
-                        <p>When someone nearby searches for what you do, you should be the first name they see. We make that happen.</p>
-                        <p class="svc-detail">Google Business Profile management, local SEO, and map pack strategy that keeps you at the top of local search, consistently.</p>
-                        <div class="svc-pills">
-                            <span>GBP Management</span>
-                            <span>Local SEO</span>
-                            <span>Map Pack Rankings</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </section>
 
-    <!-- Growth Add-Ons + CTA -->
-    <section id="add-ons" class="svc-bottom">
-        <div class="container">
-            <div class="svc-bottom-split reveal">
-                <div class="svc-bottom-left">
-                    <span class="section-tag">Level Up</span>
-                    <h2 class="svc-bottom-heading">Growth Add-Ons</h2>
-                    <p class="svc-bottom-sub">Bolt these on when you're ready to push further.</p>
-                    <ul class="svc-addon-list">
-                        <li><i class="fas fa-file-lines"></i> Landing Pages</li>
-                        <li><i class="fas fa-envelope-open-text"></i> Email &amp; SMS Follow-Ups</li>
-                        <li><i class="fas fa-hashtag"></i> Social Media Management</li>
-                        <li><i class="fas fa-images"></i> Before &amp; After Showcases</li>
-                        <li><i class="fab fa-whatsapp"></i> WhatsApp Integration</li>
-                        <li><i class="fas fa-robot"></i> Website Chat Bot</li>
-                        <li><i class="fas fa-user-plus"></i> Referral Systems</li>
-                        <li><i class="fas fa-chart-pie"></i> Reporting Dashboard</li>
-                    </ul>
-                </div>
-                <div class="svc-bottom-right">
-                    <div class="svc-bottom-right-inner">
-                        <h3>Ready to Get Started?</h3>
-                        <p>Book a free strategy call and we'll build the right setup for your business.</p>
-                        <a href="index.html#contact" class="btn btn-primary">Book a Free Strategy Call</a>
+    <!-- Booking Section -->
+    <section id="book" class="section section-gradient" style="padding-top: 36px;">
+        <div class="container" style="text-align: center;">
+            <div class="section-header reveal">
+                <h2 class="section-title">Ready to <span class="gradient-text">Get Started?</span></h2>
+                <p class="section-subtitle">Pick a time below. We'll show you exactly how MediaSphere fits your business.</p>
+            </div>
+            <div class="contact-booking reveal" data-delay="1" style="max-width: 720px; margin: 32px auto 0;">
+                <div class="booking-frame-wrap" id="booking-frame-wrap">
+                    <div class="booking-scroll-wrap">
+                        <iframe src="https://links.mediaspheresolutions.com/widget/booking/BJlPB1Ss8QzCbeUzWAwh" style="width: 100%; height: 750px; border: none; display: block;" scrolling="no" id="BJlPB1Ss8QzCbeUzWAwh_1773291741914" title="Book a strategy call"></iframe>
                     </div>
                 </div>
+                <div class="booking-fallback" id="booking-fallback" hidden>
+                    <p>The calendar is taking a moment to load.</p>
+                    <a href="https://links.mediaspheresolutions.com/widget/booking/BJlPB1Ss8QzCbeUzWAwh" target="_blank" rel="noopener" class="btn btn-primary">Open Booking Page</a>
+                </div>
+                <p class="booking-direct-link">
+                    Prefer a new tab?
+                    <a href="https://links.mediaspheresolutions.com/widget/booking/BJlPB1Ss8QzCbeUzWAwh" target="_blank" rel="noopener">Book directly →</a>
+                </p>
             </div>
         </div>
     </section>
@@ -303,12 +202,12 @@
                 <div class="footer-links">
                     <h4>Services</h4>
                     <ul>
-                        <li><a href="#services">Get Found</a></li>
-                        <li><a href="#services">Get Booked</a></li>
-                        <li><a href="#services">Get Reviews</a></li>
-                        <li><a href="#services">Stay Organised</a></li>
-                        <li><a href="#services">Never Miss a Call</a></li>
-                        <li><a href="#services">Work Smarter</a></li>
+                        <li><a href="#lead-gen">Lead Generation</a></li>
+                        <li><a href="#voice-agent">Voice Agent</a></li>
+                        <li><a href="#crm">CRM &amp; Pipelines</a></li>
+                        <li><a href="#website">Website + Chatbot</a></li>
+                        <li><a href="#automations">Automations</a></li>
+                        <li><a href="#seo">SEO</a></li>
                     </ul>
                 </div>
 
@@ -357,19 +256,19 @@
                 xmlns="http://www.w3.org/2000/svg"
             >
                 <defs>
-                    <!-- Stroke gradient -->
+                    <!-- Stroke gradient (cream/white) -->
                     <linearGradient id="mss-gradient-stroke" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" style="stop-color:#8b5cf6"/>
-                        <stop offset="50%" style="stop-color:#a78bfa"/>
-                        <stop offset="100%" style="stop-color:#6d28d9"/>
+                        <stop offset="0%" style="stop-color:#f1ece1"/>
+                        <stop offset="50%" style="stop-color:#ffffff"/>
+                        <stop offset="100%" style="stop-color:#f1ece1"/>
                     </linearGradient>
-                    <!-- Fill colour — always purple, cursor mask controls visibility -->
+                    <!-- Fill colour — cream, cursor mask controls visibility -->
                     <linearGradient id="mss-fill-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" style="stop-color:#7c3aed"/>
-                        <stop offset="50%" style="stop-color:#a78bfa"/>
-                        <stop offset="100%" style="stop-color:#7c3aed"/>
+                        <stop offset="0%" style="stop-color:#f1ece1"/>
+                        <stop offset="50%" style="stop-color:#ffffff"/>
+                        <stop offset="100%" style="stop-color:#f1ece1"/>
                     </linearGradient>
-                    <!-- Radial mask: white = reveal purple fill, transparent = hide -->
+                    <!-- Radial mask: white = reveal fill, transparent = hide -->
                     <radialGradient id="mss-cursor-mask-gradient" cx="450" cy="80" r="180" gradientUnits="userSpaceOnUse">
                         <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1"/>
                         <stop offset="55%" style="stop-color:#ffffff;stop-opacity:0.6"/>
@@ -386,200 +285,33 @@
                     x="450" y="130"
                     text-anchor="middle"
                     dominant-baseline="auto"
-                    font-family="'Space Grotesk', sans-serif"
-                    font-weight="700"
+                    font-family="'Playfair Display', Georgia, serif"
+                    font-style="italic"
+                    font-weight="400"
                     font-size="148"
-                    letter-spacing="-4"
+                    letter-spacing="-2"
                     fill="none"
                     stroke="url(#mss-gradient-stroke)"
                     stroke-width="1"
                 >MSS</text>
-                <!-- Filled layer — purple colour revealed by cursor -->
+                <!-- Filled layer — cream colour revealed by cursor -->
                 <text
                     id="mss-fill-text"
                     class="mss-text-fill"
                     x="450" y="130"
                     text-anchor="middle"
                     dominant-baseline="auto"
-                    font-family="'Space Grotesk', sans-serif"
-                    font-weight="700"
+                    font-family="'Playfair Display', Georgia, serif"
+                    font-style="italic"
+                    font-weight="400"
                     font-size="148"
-                    letter-spacing="-4"
+                    letter-spacing="-2"
                     fill="url(#mss-fill-gradient)"
                     mask="url(#mss-cursor-mask)"
                 >MSS</text>
             </svg>
         </div>
     </footer>
-
-    <!-- Scroll-trace serpentine animation -->
-    <script>
-    (function () {
-        var features = document.querySelector('.svc-features');
-        if (!features || window.innerWidth < 769) return;
-
-        var svgNS = 'http://www.w3.org/2000/svg';
-
-        // Build SVG
-        var svg = document.createElementNS(svgNS, 'svg');
-        svg.classList.add('svc-trace-svg');
-
-        var defs = document.createElementNS(svgNS, 'defs');
-        var grad = document.createElementNS(svgNS, 'linearGradient');
-        grad.id = 'svc-trace-gradient';
-        grad.setAttribute('gradientUnits', 'userSpaceOnUse');
-        var stop1 = document.createElementNS(svgNS, 'stop');
-        stop1.setAttribute('offset', '0%');
-        stop1.setAttribute('stop-color', '#6366f1');
-        stop1.setAttribute('stop-opacity', '0');
-        var stop2 = document.createElementNS(svgNS, 'stop');
-        stop2.setAttribute('offset', '100%');
-        stop2.setAttribute('stop-color', '#a78bfa');
-        stop2.setAttribute('stop-opacity', '0.9');
-        grad.appendChild(stop1);
-        grad.appendChild(stop2);
-        defs.appendChild(grad);
-        svg.appendChild(defs);
-
-        var bgPath = document.createElementNS(svgNS, 'path');
-        bgPath.classList.add('svc-trace-bg');
-        svg.appendChild(bgPath);
-
-        var trailPath = document.createElementNS(svgNS, 'path');
-        trailPath.classList.add('svc-trace-trail');
-        svg.appendChild(trailPath);
-
-        features.appendChild(svg);
-
-        // Build orb
-        var orb = document.createElement('div');
-        orb.classList.add('svc-trace-orb');
-        features.appendChild(orb);
-
-        var totalLength = 0;
-
-        function getPoints() {
-            var rows = Array.from(features.querySelectorAll('.svc-row'));
-            var featRect = features.getBoundingClientRect();
-            var inset = 12;
-            var container = rows[0].querySelector('.container');
-            var contRect = container.getBoundingClientRect();
-            var left = contRect.left - featRect.left + inset;
-            var right = contRect.right - featRect.left - inset;
-            var points = [];
-
-            rows.forEach(function (row, i) {
-                var rr = row.getBoundingClientRect();
-                var top = rr.top - featRect.top + inset;
-                var bottom = rr.bottom - featRect.top - inset;
-
-                if (i % 2 === 0) {
-                    points.push({ x: left,  y: top });
-                    points.push({ x: right, y: top });
-                    points.push({ x: right, y: bottom });
-                } else {
-                    points.push({ x: right, y: top });
-                    points.push({ x: left,  y: top });
-                    points.push({ x: left,  y: bottom });
-                }
-            });
-            return points;
-        }
-
-        function buildRoundedPath(pts, r) {
-            if (pts.length < 2) return '';
-            var d = 'M ' + pts[0].x + ' ' + pts[0].y;
-
-            for (var i = 1; i < pts.length - 1; i++) {
-                var prev = pts[i - 1], curr = pts[i], next = pts[i + 1];
-                var dx1 = curr.x - prev.x, dy1 = curr.y - prev.y;
-                var dx2 = next.x - curr.x, dy2 = next.y - curr.y;
-                var len1 = Math.sqrt(dx1 * dx1 + dy1 * dy1);
-                var len2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
-                var cr = Math.min(r, len1 / 2, len2 / 2);
-
-                var bx = curr.x - (dx1 / len1) * cr;
-                var by = curr.y - (dy1 / len1) * cr;
-                var ax = curr.x + (dx2 / len2) * cr;
-                var ay = curr.y + (dy2 / len2) * cr;
-
-                d += ' L ' + bx + ' ' + by;
-                d += ' Q ' + curr.x + ' ' + curr.y + ' ' + ax + ' ' + ay;
-            }
-            d += ' L ' + pts[pts.length - 1].x + ' ' + pts[pts.length - 1].y;
-            return d;
-        }
-
-        function rebuild() {
-            var w = features.offsetWidth;
-            var h = features.offsetHeight;
-            svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
-
-            var pts = getPoints();
-            var d = buildRoundedPath(pts, 24);
-            bgPath.setAttribute('d', d);
-            trailPath.setAttribute('d', d);
-            totalLength = bgPath.getTotalLength();
-            trailPath.style.strokeDasharray = totalLength;
-            trailPath.style.strokeDashoffset = totalLength;
-        }
-
-        function onScroll() {
-            if (!totalLength) return;
-
-            var featRect = features.getBoundingClientRect();
-            var mid = window.innerHeight / 2;
-            var progress = (mid - featRect.top) / featRect.height;
-            var clamped = Math.max(0, Math.min(1, progress));
-
-            var visible = progress > 0.01 && progress < 0.99;
-            if (visible) {
-                orb.classList.add('svc-trace-orb--visible');
-            } else {
-                orb.classList.remove('svc-trace-orb--visible');
-            }
-            if (!visible) return;
-
-            var currentLen = clamped * totalLength;
-            var pt = bgPath.getPointAtLength(currentLen);
-
-            // Trail
-            trailPath.style.strokeDashoffset = totalLength - currentLen;
-
-            // Gradient follows orb
-            var trailBack = bgPath.getPointAtLength(Math.max(0, currentLen - 350));
-            grad.setAttribute('x1', trailBack.x);
-            grad.setAttribute('y1', trailBack.y);
-            grad.setAttribute('x2', pt.x);
-            grad.setAttribute('y2', pt.y);
-
-            // Position orb
-            orb.style.left = pt.x + 'px';
-            orb.style.top = pt.y + 'px';
-        }
-
-        var ticking = false;
-        function handleScroll() {
-            if (!ticking) {
-                requestAnimationFrame(function () {
-                    onScroll();
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        }
-
-        window.addEventListener('load', function () {
-            rebuild();
-            onScroll();
-        });
-        window.addEventListener('resize', function () {
-            rebuild();
-            onScroll();
-        });
-        window.addEventListener('scroll', handleScroll, { passive: true });
-    })();
-    </script>
 
     <!-- MSS footer text animation -->
     <script>
@@ -640,6 +372,29 @@
     </script>
 
     <!-- Scripts -->
+    <script src="cosmos-bg.js"></script>
+    <script src="sparkles.js"></script>
     <script src="script.js"></script>
+    <script src="https://links.mediaspheresolutions.com/js/form_embed.js" type="text/javascript"></script>
+    <script>
+    (function() {
+        var iframeId = 'BJlPB1Ss8QzCbeUzWAwh_1773291741914';
+        var fallback = document.getElementById('booking-fallback');
+        var frameWrap = document.getElementById('booking-frame-wrap');
+        if (!fallback || !frameWrap) return;
+        var loaded = false;
+        window.addEventListener('message', function(e) {
+            if (typeof e.data === 'string' && e.data.indexOf(iframeId) !== -1) loaded = true;
+            else if (e.data && typeof e.data === 'object' && (e.data.type || e.data.event)) loaded = true;
+        });
+        setTimeout(function() {
+            if (loaded) return;
+            var iframe = document.getElementById(iframeId);
+            if (iframe && iframe.offsetHeight > 200) return;
+            frameWrap.hidden = true;
+            fallback.hidden = false;
+        }, 6000);
+    })();
+    </script>
 </body>
 </html>

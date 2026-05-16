@@ -14,8 +14,8 @@
   var W           = 800;
   var H           = 400;
   var NS          = 'http://www.w3.org/2000/svg';
-  var ARC_COLOR   = '#8b5cf6';   // purple accent-2
-  var ORIG_COLOR  = '#06b6d4';   // cyan accent-3 — Dublin
+  var ARC_COLOR   = '#f1ece1';   // cream — arcs + destination dots
+  var ORIG_COLOR  = '#ffffff';   // pure white — Dublin pops as the origin
   var DOT_SPACING = 3;           // px between dots — tighter grid, matches reference
   var DOT_R       = 0.6;
   var STAGGER     = 480;         // ms between arc starts

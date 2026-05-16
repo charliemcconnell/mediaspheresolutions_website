@@ -10,20 +10,117 @@ document.addEventListener('DOMContentLoaded', () => {
     initStepsLine();
     initCountUp();
     initSmoothScroll();
-    initAppPreview();
-    initScrollFlip();
-    initOrbitAnimation();
     initScrollIndicator();
     initLogoSliders();
+    initPerspectiveMarquee();
+    initHowItWorksScroll();
 });
+
+/* --- How It Works: scroll-driven horizontal card slide --- */
+function initHowItWorksScroll() {
+    const scroll = document.getElementById('hiwScroll');
+    const track  = document.getElementById('hiwTrack');
+    if (!scroll || !track) return;
+    const cards = Array.from(track.children);
+    if (cards.length === 0) return;
+    const dots = Array.from(scroll.querySelectorAll('.hiw-progress-dot'));
+    const progressEl = scroll.querySelector('.hiw-progress');
+
+    function tick() {
+        const rect = scroll.getBoundingClientRect();
+        const totalScroll = Math.max(1, scroll.offsetHeight - window.innerHeight);
+        // Use unclamped raw progress so we can detect "past the section"
+        const rawProgress = -rect.top / totalScroll;
+        const progress = Math.max(0, Math.min(1, rawProgress));
+
+        const maxShift = (cards.length - 1) * 100;
+        const shift = -progress * maxShift;
+        track.style.transform = 'translate3d(' + shift.toFixed(3) + '%, 0, 0)';
+
+        const activeIndex = Math.min(cards.length - 1, Math.round(progress * (cards.length - 1)));
+        cards.forEach((card, i) => {
+            card.classList.toggle('is-active', i === activeIndex);
+        });
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('is-active', i === activeIndex);
+        });
+
+        // Fade out the dots once the user has fully scrolled past card 3
+        // (raw progress >= 1 means we've moved past the sticky lock zone).
+        // Restore visibility on upward scroll back into the section.
+        if (progressEl) {
+            progressEl.classList.toggle('is-hidden', rawProgress >= 0.985);
+        }
+    }
+
+    function onScroll() { requestAnimationFrame(tick); }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    onScroll();
+}
+
+/* --- 3D Perspective Marquee with DOF blur --- */
+function initPerspectiveMarquee() {
+    const track = document.getElementById('marquee3dTrack');
+    if (!track) return;
+    const stage = track.parentElement;
+    if (!stage) return;
+
+    // Clone items once so the half-cycle width forms a seamless loop
+    const originalItems = Array.from(track.children);
+    originalItems.forEach((it) => track.appendChild(it.cloneNode(true)));
+
+    const speed = 3.15; // 4.5 slowed by 30%
+    let pos = 0;
+    let cycle = track.scrollWidth / 2;
+
+    const recomputeCycle = () => { cycle = track.scrollWidth / 2; };
+    window.addEventListener('resize', recomputeCycle);
+
+    function tick() {
+        pos -= speed;
+        if (cycle > 0 && Math.abs(pos) >= cycle) pos += cycle;
+        track.style.transform =
+            'translate3d(' + pos.toFixed(2) + 'px, -50%, 0) rotateX(4deg) rotateY(-16deg)';
+
+        const stageRect = stage.getBoundingClientRect();
+        const stageCenter = stageRect.left + stageRect.width / 2;
+        const halfWidth = stageRect.width / 2;
+        const focusRadius = halfWidth * 0.30;
+        const maxBlur = 10;
+
+        const items = track.children;
+        for (let i = 0; i < items.length; i++) {
+            const item = items[i];
+            const r = item.getBoundingClientRect();
+            const itemCenter = r.left + r.width / 2;
+            const dist = Math.abs(itemCenter - stageCenter);
+            const offCenter = Math.max(0, dist - focusRadius);
+            const t = Math.min(1, offCenter / halfWidth);
+            const blur = (t * t) * maxBlur;
+            item.style.filter = blur < 0.3 ? '' : 'blur(' + blur.toFixed(1) + 'px)';
+        }
+
+        requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+}
 
 /* --- Navbar scroll effect --- */
 function initNavbar() {
     const navbar = document.getElementById('navbar');
     let lastScroll = 0;
+    let revealed = false;
 
     function handleScroll() {
         const currentScroll = window.scrollY;
+
+        // First-time reveal: nav stays hidden on the home/hero until the user scrolls.
+        // Once revealed, it stays visible permanently (even when scrolled back to top).
+        if (!revealed && currentScroll > 60) {
+            navbar.classList.add('is-revealed');
+            revealed = true;
+        }
 
         if (currentScroll > 50) {
             navbar.classList.add('scrolled');
@@ -652,10 +749,20 @@ function initScrollIndicator() {
         });
     }
 
-    // Fade in the moment scrolling begins
+    // Fade in once the user has scrolled to the How It Works section.
+    // Stay visible from there onward.
     var revealed = false;
+    var howItWorks = document.getElementById('how-it-works');
     function reveal() {
-        if (!revealed && window.scrollY > 1) {
+        if (revealed) return;
+        var threshold;
+        if (howItWorks) {
+            // Reveal when the top of How It Works enters the viewport
+            threshold = howItWorks.offsetTop - window.innerHeight * 0.85;
+        } else {
+            threshold = window.innerHeight * 0.6;
+        }
+        if (window.scrollY >= Math.max(0, threshold)) {
             indicator.classList.add('visible');
             revealed = true;
         }

@@ -54,7 +54,7 @@
     <section id="team" class="section section-dark global-reach-section" style="padding-top: 90px;">
         <div class="container" style="padding-bottom: 0;">
             <div class="section-header reveal">
-                <h2 class="section-title" style="font-size: clamp(2.4rem, 5vw, 4rem);">Built in Dublin,<br><span class="gradient-text">Serving the World</span></h2>
+                <h2 class="section-title" style="font-size: clamp(2.4rem, 5vw, 4rem);"><span style="font-family: 'Inter', sans-serif; font-weight: 800; letter-spacing: -0.04em;">Built in Dublin,</span><br><span class="gradient-text" style="font-family: 'Playfair Display', 'Georgia', serif; font-style: italic; font-weight: 400; letter-spacing: -0.01em;">Serving the World</span></h2>
                 <p class="section-subtitle">From our base in Ireland, we partner with service businesses across the globe, delivering measurable results in every timezone.</p>
             </div>
         </div>
@@ -225,9 +225,23 @@
     <section id="cta" class="section section-gradient" style="padding-top: 84px;">
         <div class="container" style="text-align: center;">
             <div class="section-header reveal">
-                <h2 class="section-title">Ready to Work With Us?</h2>
-                <p class="section-subtitle">Book a free strategy call and let's figure out the right setup for your business.</p>
-                <a href="index.html#contact" class="btn btn-primary" style="display: inline-block; margin-top: 1.5rem;">Book a Free Strategy Call</a>
+                <h2 class="section-title">Ready to <span class="gradient-text">Work With Us?</span></h2>
+                <p class="section-subtitle">Pick a time below. We'll figure out the right setup for your business.</p>
+            </div>
+            <div class="contact-booking reveal" data-delay="1" style="max-width: 720px; margin: 32px auto 0;">
+                <div class="booking-frame-wrap" id="booking-frame-wrap">
+                    <div class="booking-scroll-wrap">
+                        <iframe src="https://links.mediaspheresolutions.com/widget/booking/BJlPB1Ss8QzCbeUzWAwh" style="width: 100%; height: 750px; border: none; display: block;" scrolling="no" id="BJlPB1Ss8QzCbeUzWAwh_1773291741914" title="Book a strategy call"></iframe>
+                    </div>
+                </div>
+                <div class="booking-fallback" id="booking-fallback" hidden>
+                    <p>The calendar is taking a moment to load.</p>
+                    <a href="https://links.mediaspheresolutions.com/widget/booking/BJlPB1Ss8QzCbeUzWAwh" target="_blank" rel="noopener" class="btn btn-primary">Open Booking Page</a>
+                </div>
+                <p class="booking-direct-link">
+                    Prefer a new tab?
+                    <a href="https://links.mediaspheresolutions.com/widget/booking/BJlPB1Ss8QzCbeUzWAwh" target="_blank" rel="noopener">Book directly →</a>
+                </p>
             </div>
         </div>
     </section>
@@ -244,12 +258,12 @@
                 <div class="footer-links">
                     <h4>Services</h4>
                     <ul>
-                        <li><a href="services.html#services">Get Found</a></li>
-                        <li><a href="services.html#services">Get Booked</a></li>
-                        <li><a href="services.html#services">Get Reviews</a></li>
-                        <li><a href="services.html#services">Stay Organised</a></li>
-                        <li><a href="services.html#services">Never Miss a Call</a></li>
-                        <li><a href="services.html#services">Work Smarter</a></li>
+                        <li><a href="services.html#lead-gen">Lead Generation</a></li>
+                        <li><a href="services.html#voice-agent">Voice Agent</a></li>
+                        <li><a href="services.html#crm">CRM &amp; Pipelines</a></li>
+                        <li><a href="services.html#website">Website + Chatbot</a></li>
+                        <li><a href="services.html#automations">Automations</a></li>
+                        <li><a href="services.html#seo">SEO</a></li>
                     </ul>
                 </div>
 
@@ -298,19 +312,19 @@
                 xmlns="http://www.w3.org/2000/svg"
             >
                 <defs>
-                    <!-- Stroke gradient -->
+                    <!-- Stroke gradient (cream/white) -->
                     <linearGradient id="mss-gradient-stroke" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" style="stop-color:#8b5cf6"/>
-                        <stop offset="50%" style="stop-color:#a78bfa"/>
-                        <stop offset="100%" style="stop-color:#6d28d9"/>
+                        <stop offset="0%" style="stop-color:#f1ece1"/>
+                        <stop offset="50%" style="stop-color:#ffffff"/>
+                        <stop offset="100%" style="stop-color:#f1ece1"/>
                     </linearGradient>
-                    <!-- Fill colour — always purple, cursor mask controls visibility -->
+                    <!-- Fill colour — cream, cursor mask controls visibility -->
                     <linearGradient id="mss-fill-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" style="stop-color:#7c3aed"/>
-                        <stop offset="50%" style="stop-color:#a78bfa"/>
-                        <stop offset="100%" style="stop-color:#7c3aed"/>
+                        <stop offset="0%" style="stop-color:#f1ece1"/>
+                        <stop offset="50%" style="stop-color:#ffffff"/>
+                        <stop offset="100%" style="stop-color:#f1ece1"/>
                     </linearGradient>
-                    <!-- Radial mask: white = reveal purple fill, transparent = hide -->
+                    <!-- Radial mask: white = reveal fill, transparent = hide -->
                     <radialGradient id="mss-cursor-mask-gradient" cx="450" cy="80" r="180" gradientUnits="userSpaceOnUse">
                         <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1"/>
                         <stop offset="55%" style="stop-color:#ffffff;stop-opacity:0.6"/>
@@ -327,25 +341,27 @@
                     x="450" y="130"
                     text-anchor="middle"
                     dominant-baseline="auto"
-                    font-family="'Space Grotesk', sans-serif"
-                    font-weight="700"
+                    font-family="'Playfair Display', Georgia, serif"
+                    font-style="italic"
+                    font-weight="400"
                     font-size="148"
-                    letter-spacing="-4"
+                    letter-spacing="-2"
                     fill="none"
                     stroke="url(#mss-gradient-stroke)"
                     stroke-width="1"
                 >MSS</text>
-                <!-- Filled layer — purple colour revealed by cursor -->
+                <!-- Filled layer — cream colour revealed by cursor -->
                 <text
                     id="mss-fill-text"
                     class="mss-text-fill"
                     x="450" y="130"
                     text-anchor="middle"
                     dominant-baseline="auto"
-                    font-family="'Space Grotesk', sans-serif"
-                    font-weight="700"
+                    font-family="'Playfair Display', Georgia, serif"
+                    font-style="italic"
+                    font-weight="400"
                     font-size="148"
-                    letter-spacing="-4"
+                    letter-spacing="-2"
                     fill="url(#mss-fill-gradient)"
                     mask="url(#mss-cursor-mask)"
                 >MSS</text>
@@ -445,6 +461,29 @@
                 initCursorReveal();
             });
         }
+    })();
+    </script>
+
+    <!-- Booking widget loader + reliability fallback -->
+    <script src="https://links.mediaspheresolutions.com/js/form_embed.js" type="text/javascript"></script>
+    <script>
+    (function() {
+        var iframeId = 'BJlPB1Ss8QzCbeUzWAwh_1773291741914';
+        var fallback = document.getElementById('booking-fallback');
+        var frameWrap = document.getElementById('booking-frame-wrap');
+        if (!fallback || !frameWrap) return;
+        var loaded = false;
+        window.addEventListener('message', function(e) {
+            if (typeof e.data === 'string' && e.data.indexOf(iframeId) !== -1) loaded = true;
+            else if (e.data && typeof e.data === 'object' && (e.data.type || e.data.event)) loaded = true;
+        });
+        setTimeout(function() {
+            if (loaded) return;
+            var iframe = document.getElementById(iframeId);
+            if (iframe && iframe.offsetHeight > 200) return;
+            frameWrap.hidden = true;
+            fallback.hidden = false;
+        }, 6000);
     })();
     </script>
 </body>
